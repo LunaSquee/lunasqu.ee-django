@@ -1,0 +1,20 @@
+{% extends "personal/header.html" %}
+{% block title %}LunaSquee - Account - Edit your settings{% endblock %}
+{% block content %}
+<h1>Edit your settings</h1>
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+<div class="registerbox">
+<form method="post" action="." enctype="multipart/form-data">
+{% csrf_token %}
+{{form.as_p}}
+<input class="submit-button" type="submit" value="Done">
+<input type="hidden" name="next" value="{{next}}">
+</form>
+</div>
+{% endblock %}

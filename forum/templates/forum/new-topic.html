@@ -1,0 +1,19 @@
+{% extends "personal/header.html" %}
+{% block title %}LunaSquee - Forums - Creating a new topic on {{forum.section.title}} | {{forum.title}}{% endblock %}
+{% block content %}
+<!-- Forum Navigator -->
+<div class="forumnavigator">
+    <a href="/forum" class="instance" style="z-index: 3;">Forum index</a>
+    <a href="/forum" class="instance" style="z-index: 2;">{{forum.section.title}}</a>
+    <a href="{% url 'forum-detail' forum.pk %}" class="instance" style="z-index: 1;">{{forum.title}}</a>
+    <span class="instance">New topic</span>
+</div><br>
+<!-- New Topic Form -->
+<span class="topictitle">Creating a new topic on <q>{{forum.description}}</q></span>
+<form action="{% url 'new-topic' forum.id %}" method="POST">
+    {% csrf_token %} 
+    {{ form.as_p }}
+    <input type="submit" value="Submit" />
+</form>
+<script> CKEDITOR.replace( 'id_description' ); </script>
+{% endblock %}

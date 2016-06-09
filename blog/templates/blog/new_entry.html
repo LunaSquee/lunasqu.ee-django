@@ -1,0 +1,11 @@
+{% extends "personal/header.html" %}
+{% block title %}LunaSquee - Blog - New blog entry{% endblock %}
+{% block content %}
+<h2>New blog post</h2>
+<form action="{% url 'new_post' %}" method="POST">
+	{% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Submit" />
+</form>
+<script> CKEDITOR.replace( 'id_body' ); </script>
+{% endblock %}

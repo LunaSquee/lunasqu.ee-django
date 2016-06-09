@@ -1,0 +1,35 @@
+{% extends "personal/header.html" %}
+{%block title%}LunaSquee - Forums{%endblock%}
+{% block content %}
+<!-- Forums  -->
+{% for key, value in sectionlist.items %}
+<span class="sectiontitle">{{key}}</span>
+<span class="forumdescription">{{value.description|safe}}</span>
+<div id="list">
+    <table border="0" cellpadding="4" width="100%">
+        <tr>
+            <th>Forum</th>
+            <th class="count_part">Topics</th>
+            <th class="count_part">Posts</th>
+            <th>Last post</th>
+        </tr>
+        {% for forum in value.forums %}
+            <tr>
+                <td {% if forloop.last %}class="last"{% endif %}>
+                    <div class="title"> <a href="{% url 'forum-detail' forum.pk %}">{{ forum.title }}</a><br>
+                    <span>{{forum.description}}</span></div>
+                </td>
+                <td class="count_part" {% if forloop.last %}class="last"{% endif %}>{{ forum.num_topics }}</td>
+                <td class="count_part" {% if forloop.last %}class="last"{% endif %}>{{ forum.num_posts }}</td>
+                <td {% if forloop.last %}class="last"{% endif %}>
+                {%if forum.last_post %}
+                    <a href="{% url 'topic-detail' forum.last_post.topic.pk %}?find_post={{forum.last_post.pk}}">{{ forum.last_post.title }}</a><br>By <a href="{%url 'view_other_profile' forum.last_post.creator%}">{{forum.last_post.creator.profile.display_name|default_if_none:forum.last_post.creator.username}}</a> on {{forum.last_post.created|date:"l, N d Y, H:i"}}</td>
+                {%else%}
+                    <small><i>Nobody has posted here yet!</i></small>
+                {%endif%}
+            </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endfor %}
+{% endblock %}

@@ -1,0 +1,5 @@
+Hello.
+
+Please confirm your lunasqu.ee account by visiting this link: https://lunasqu.ee/accounts/activate/{{ activation_key }}
+
+If you did not create an account on our website, please ignore this email.

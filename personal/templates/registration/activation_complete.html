@@ -1,0 +1,7 @@
+{% extends "personal/header.html" %}
+{% block title %}LunaSquee - Account - Activation success{% endblock %}
+{% block content %}
+<div class="successbox">
+	Successfully activated your account. You may now <a href="{% url 'auth_login' %}">log in</a>.
+</div>
+{% endblock %}

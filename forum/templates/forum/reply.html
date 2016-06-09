@@ -1,0 +1,22 @@
+{% extends "personal/header.html" %}
+{%block title%}LunaSquee - Forums - Replying to {{topic.title}}{%endblock%}
+{% block content %}
+<!-- Forum Navigator -->
+<div class="forumnavigator">
+    <a href="/forum" class="instance" style="z-index: 4;">Forum index</a>
+    <a href="/forum" class="instance" style="z-index: 3;">{{forum.section.title}}</a>
+    <a href="{% url 'forum-detail' forum.pk %}" class="instance" style="z-index: 2;">{{forum.title}}</a>
+    <a href="{% url 'topic-detail' topic.pk %}" class="instance" style="z-index: 1;">{{topic.title}}</a>
+    <span class="instance">New reply</span>
+</div><br>
+<!-- Reply Form -->
+<i><small>Replying to topic:</small></i>
+<span class="topictitle">{{topic.title}}</span>
+<form action="{% url 'reply' topic.id %}" method="POST">
+    {% csrf_token %} 
+    {{ form.as_p }}
+    <input type="submit" value="Submit" />
+    <a href="{% url 'topic-detail' topic.pk %}" class="button replybtn">Back to topic</a>
+</form>
+<script> CKEDITOR.replace( 'id_body' ); </script>
+{% endblock %}

@@ -1,0 +1,9 @@
+{% extends "personal/header.html" %}
+{% block title %}LunaSquee - Blog - {{post.title}}{% endblock %}
+{% block content %}
+<div class="blog_post">
+	<span class="title">{{post.title}}</span>
+	<span class="date">{{ post.date|date:"d/m/Y H:m:s" }}</span>
+	<div class="postbody">{{post.body|safe|linebreaks}}</div>
+</div>
+{% endblock %}

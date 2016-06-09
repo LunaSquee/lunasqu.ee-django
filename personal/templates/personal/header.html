@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf8">
+		<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" type="text/css">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css" type="text/css">
+		<script src="//cdn.ckeditor.com/4.5.9/standard/ckeditor.js"></script>
+		{% load staticfiles %}
+		<link rel="stylesheet" type="text/css" href="{% static 'css/primary.css' %}">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>{% block title %}LunaSquee{% endblock %}</title>
+	</head>
+	<!-- Codepony LunaSquee -->
+	<body>
+	<div class="user">
+	{%if user.is_anonymous %}
+		<a href="{% url 'auth_login' %}"><i class="fa fa-sign-in fa-fw"></i>&nbsp;Log in</a>
+		<a href="{% url 'registration_register' %}">Register</a>
+	{% else %}
+		<a href="{% url 'view_profile' %}"><i class="fa fa-user fa-fw"></i>&nbsp;{{user.profile.display_name|default_if_none:user.username}}</a>
+		{%if user.is_admin or user.is_superuser%}
+			<a href="/admin"><i class="fa fa-star fa-fw"></i>&nbsp;Admin</a>
+		{%endif%}
+		<a href="{% url 'edit_settings' %}"><i class="fa fa-gear fa-fw"></i>&nbsp;Settings</a>
+		<a href="{% url 'auth_logout' %}"><i class="fa fa-sign-out fa-fw"></i>&nbsp;Log out</a>
+	{% endif %}
+	</div>
+	<div class="logo">
+		LunaSquee
+	</div>
+	<div class="clearfix">
+		<nav class="navigator">
+			<ul>
+				<li><a href="/"><i class="fa fa-home fa-fw"></i>&nbsp;Home</a></li>
+				<li><a href="/blog"><i class="fa fa-rss fa-fw"></i>&nbsp;Blog</a></li>
+				<li><a href="/forum"><i class="fa fa-users fa-fw"></i>&nbsp;Forums</a></li>
+			</ul>
+		</nav>
+		<div class="content">
+			{% block content %}
+			{% endblock %}
+		</div>
+	</div>
+	</body>
+</html>

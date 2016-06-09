@@ -1,0 +1,9 @@
+{% extends "personal/header.html" %}
+{% block title %}LunaSquee - Account - New account created{% endblock %}
+{% block content %}
+<div class="successbox">
+	Successfully created an account. Please check your inbox for an activation link.<br>
+	If you have not received an email, you can <a href="{%url 'resend_activation_email'%}">resend the email</a>.
+</div>
+<a href="/">Home</a>
+{% endblock %}

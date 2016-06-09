@@ -1,0 +1,95 @@
+{% extends "personal/header.html" %}
+{% block title %}LunaSquee - Forums - {{section.title}} - {{forum.title}} - {{topic.title}}{% endblock %}
+{% block content %}
+<!-- Forum Navigator -->
+<div class="forumnavigator">
+    <a href="/forum" class="instance" style="z-index: 4;">Forum index</a>
+    <a href="/forum" class="instance" style="z-index: 3;">{{section.title}}</a>
+    <a href="{% url 'forum-detail' forum.pk %}" class="instance" style="z-index: 2;">{{forum.title}}</a>
+    <a href="{% url 'topic-detail' topic.pk %}" class="instance" style="z-index: 1;">{{topic.title}}</a>
+</div><br>
+<!-- Posts  -->
+<span class="topictitle">{{ topic.title }}</span>
+<span class="topicdescription"><a href="{% url 'view_other_profile' topic.creator.username %}" target="_blank">{{topic.creator.profile.display_name|default_if_none:topic.creator.username}}</a> started this topic on {{ topic.created|date:"l, N d Y, H:i" }}</span>
+<!-- Next/Prev page links  -->
+{% if posts.object_list and posts.paginator.num_pages > 1 %}
+<div class="pagination">
+    <span class="step-links">
+        {% if posts.has_previous %}
+            <a href= "?page={{ posts.previous_page_number }}"><i class="fa fa-angle-double-left"></i>&nbsp;Previous</a>
+        {% endif %}
+
+        <span class="current">
+            &nbsp;Page {{ posts.number }} of {{ posts.paginator.num_pages }}
+        </span>
+
+        {% if posts.has_next %}
+            <a href="?page={{ posts.next_page_number }}">Next&nbsp;<i class="fa fa-angle-double-right"></i></a>
+        {% endif %}
+    </span>
+</div>
+{% endif %}
+<div class="boxheader">
+<span class="replycount">This topic has {{post_count}} replies</span>
+{% if not topic.closed %}
+    <a class="button replybtn" href="{% url 'reply' pk %}">Reply</a>
+{%endif%}
+</div>
+<div id="postlist">
+    {% if posts.number == 1 %}
+    <a class="p_username" href="{% url 'view_other_profile' topic.creator.username %}" target="_blank">{{ topic.creator.profile.display_name|default_if_none:topic.creator.username}}</a>
+    <div class="post">
+        <div class="poster">
+            <img class="avatar" src="{{ topic.creator.profile.get_avatar }}">
+            <span class="reputation{%if topic.creator.profile.reputation < 0%} negative{%endif%}"><span>{{topic.creator.profile.reputation}}</span> Reputation</span>
+            <span class="post_count newparam">Posts: <span>{{topic.creator.profile.get_post_count}}</span></span>
+            <span class="topic_count newparam">Topics: <span>{{topic.creator.profile.get_topic_count}}</span></span>
+        </div>
+        <div class="container">{{ topic.description|safe }}</div>
+        <div class="subarea">
+            <span class="date">{{ topic.created|date:"l, N d Y, H:i" }}</span>
+        </div>
+    </div>
+    {% endif %}
+    {% for post in posts.object_list %}
+    <a class="p_username" href="{% url 'view_other_profile' post.creator.username %}" target="_blank" class="p_username">{{ post.creator.profile.display_name|default_if_none:post.creator.username}}</a>
+        <div class="post">
+            <div class="poster">
+                <img class="avatar" src="{{ post.creator.profile.get_avatar }}">
+                <span class="reputation{%if topic.creator.profile.reputation < 0%} negative{%endif%}"><span>{{topic.creator.profile.reputation}}</span> Reputation</span>
+                <span class="post_count newparam">Posts: <span>{{post.creator.profile.get_post_count}}</span></span>
+                <span class="topic_count newparam">Topics: <span>{{post.creator.profile.get_topic_count}}</span></span>
+            </div>
+            <div class="container">{{ post.body|safe }}</div>
+            <div class="subarea">
+                <span class="date">{{ post.created|date:"l, N d Y, H:i" }}</span>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+<div class="boxfooter">
+&nbsp;
+{% if not topic.closed %}
+    <a class="button replybtn" href="{% url 'reply' pk %}">Reply</a>
+{%endif%}
+</div>
+
+<!-- Next/Prev page links  -->
+{% if posts.object_list and posts.paginator.num_pages > 1 %}
+<div class="pagination">
+    <span class="step-links">
+        {% if posts.has_previous %}
+            <a href= "?page={{ posts.previous_page_number }}"><i class="fa fa-angle-double-left"></i>&nbsp;Previous</a>
+        {% endif %}
+
+        <span class="current">
+            &nbsp;Page {{ posts.number }} of {{ posts.paginator.num_pages }}
+        </span>
+
+        {% if posts.has_next %}
+            <a href="?page={{ posts.next_page_number }}">Next&nbsp;<i class="fa fa-angle-double-right"></i></a>
+        {% endif %}
+    </span>
+</div>
+{% endif %}
+{% endblock %}

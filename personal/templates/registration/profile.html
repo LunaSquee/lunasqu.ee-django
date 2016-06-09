@@ -1,0 +1,27 @@
+{% extends "personal/header.html" %}
+{% block title %}LunaSquee - Profiles - {{profile.username}}{% endblock %}
+{% block content %}
+<div class="profile">
+<div class="leftside">
+	<div class="avatarcontainer">
+		<img src={{profile.profile.get_avatar}} class="avatar">
+	</div>
+	<div class="userdata">
+		<span class="reputation">{{profile.profile.reputation}} Reputation</span>
+		<span class="postcount"><i class="fa fa-thumb-tack fa-fw"></i>&nbsp;Posts: {{profile.profile.get_post_count}}</span>
+		<span class="postcount"><i class="fa fa-flag fa-fw"></i>&nbsp;Topics: {{profile.profile.get_topic_count}}</span>
+	</div>
+</div>
+<div class="rightside">
+	<div class="profheader">
+		{% if profile.profile.display_name %}
+		<span class="display_name">{{profile.profile.display_name}}</span>
+		<span class="username">{{profile.username}}</span>
+		{% else %}
+		<span class="display_name">{{profile.username}}</span>
+		{% endif%}
+	</div>
+	<div class="profcontent">{{profile.profile.signature}}</div>
+</div>
+</div>
+{% endblock %}

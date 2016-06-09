@@ -1,0 +1,14 @@
+{% extends "personal/header.html" %}
+{% block title %}LunaSquee - Account - Create a new account{% endblock %}
+{% block content %}
+<h1>Create an account</h1>
+<div class="registerbox">
+<form method="post" action=".">
+{% csrf_token %}
+{{form.as_p}}
+<input class="submit-button" type="submit" value="Sign up">
+<input type="hidden" name="next" value="{{next}}">
+</form>
+<p>Already registered? <a href="{% url 'auth_login' %}">Log in!</a></p>
+</div>
+{% endblock %}

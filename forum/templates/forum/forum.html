@@ -1,0 +1,81 @@
+{% extends "personal/header.html" %}
+{%block title%}LunaSquee - Forums - {{section.title}} - {{forum.title}}{%endblock%}
+{% block content %}
+<!-- Forum Navigator -->
+<div class="forumnavigator">
+    <a href="/forum" class="instance" style="z-index: 3;">Forum index</a>
+    <a href="/forum" class="instance" style="z-index: 2;">{{section.title}}</a>
+    <a href="{% url 'forum-detail' forum.pk %}" class="instance" style="z-index: 1;">{{forum.title}}</a>
+</div><br>
+<!-- Forum Title -->
+<span class="forumtitle">{{forum.title}}</span>
+<span class="forumdescription">{{forum.description}}</span>
+<!-- Threads  -->
+<a id="new_topic" class="button" href="{% url 'new-topic' pk %}">Start New Topic</a>
+<br />
+<br />
+<!-- Next/Prev page links  -->
+{% if topics.object_list and topics.paginator.num_pages > 1 %}
+<div class="pagination">
+    <span class="step-links">
+        {% if topics.has_previous %}
+            <a href= "?page={{ posts.previous_page_number }}"><i class="fa fa-angle-double-left"></i>&nbsp;Previous</a>
+        {% endif %}
+
+        <span class="current">
+            &nbsp;Page {{ topics.number }} of {{ topics.paginator.num_pages }}
+        </span>
+
+        {% if topics.has_next %}
+            <a href="?page={{ posts.next_page_number }}">Next&nbsp;<i class="fa fa-angle-double-right"></i></a>
+        {% endif %}
+    </span>
+</div>
+{% endif %}
+<div id="list">
+<table border="0" cellpadding="4" width="100%">
+    <tr>
+        <th>Topics</th>
+        <th class="count_part">Replies</th>
+        <th>Last post</th>
+    </tr>
+
+    {% for topic in topics.object_list %}
+    <tr>
+        <td {% if forloop.last %}class="last"{% endif %}>
+        <div class="title">{%if topic.closed%}<i class="fa fa-ban fa-fw" title="Topic is closed for new replies"></i>{%endif%}{%if topic.pinned%}<i class="fa fa-thumb-tack fa-fw" title="Pinned topic"></i>{%endif%}
+        <a href="{% url 'topic-detail' topic.pk %}">{{ topic.title }}</a><br>
+            Started by <a href="{% url 'view_other_profile' topic.creator.username %}" target="_blank">{{topic.creator.profile.display_name|default_if_none:topic.creator.username}}</a> on {{topic.created|date:"l, N d Y, H:i"}}</div></td>
+        <td class="count_part{% if forloop.last %} last{% endif %}">{{ topic.num_replies }}</td>
+        <td {% if forloop.last %}class="last"{% endif %}>
+        {%if topic.last_post%}
+            <a href="{% url 'topic-detail' topic.last_post.topic.pk %}?find_post={{topic.last_post.pk}}">{{ topic.last_post.title }}</a><br>By <a href="{%url 'view_other_profile' topic.last_post.creator%}">{{topic.last_post.creator.profile.display_name|default_if_none:topic.last_post.creator.username}}</a> on {{topic.last_post.created|date:"l, N d Y, H:i"}}
+        {%else%}
+            <small><i>Nobody has posted here yet!</i></small>
+        {%endif%}
+        </td>
+    </tr>
+
+    {% endfor %}
+</table>
+</div>
+
+<!-- Next/Prev page links  -->
+{% if topics.object_list and topics.paginator.num_pages > 1 %}
+<div class="pagination">
+    <span class="step-links">
+        {% if topics.has_previous %}
+            <a href= "?page={{ posts.previous_page_number }}"><i class="fa fa-angle-double-left"></i>&nbsp;Previous</a>
+        {% endif %}
+
+        <span class="current">
+            &nbsp;Page {{ topics.number }} of {{ topics.paginator.num_pages }}
+        </span>
+
+        {% if topics.has_next %}
+            <a href="?page={{ posts.next_page_number }}">Next&nbsp;<i class="fa fa-angle-double-right"></i></a>
+        {% endif %}
+    </span>
+</div>
+{% endif %}
+{% endblock %}
