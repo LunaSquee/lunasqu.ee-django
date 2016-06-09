@@ -21,7 +21,7 @@
 		<span class="display_name">{{profile.username}}</span>
 		{% endif%}
 	</div>
-	<div class="profcontent">{{profile.profile.signature}}</div>
+	<div class="profcontent">{{profile.profile.bio|safe}}</div>
 </div>
 </div>
 {% endblock %}

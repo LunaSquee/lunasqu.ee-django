@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django import forms
 from .models import Profile
 from django.core.files.images import get_image_dimensions
+from personal.bleach import bleach_clean
 
 class ResendActivationEmailForm(forms.Form):
     username = forms.CharField(required=True)
@@ -15,6 +16,9 @@ class SettingsForm(forms.ModelForm):
     class Meta:
         model = Profile
         exclude = ('user','signature',)
+
+    def clean_bio(self):
+        return bleach_clean(self.cleaned_data['bio'])
 
     def clean_avatar(self):
         avatar = self.cleaned_data['avatar']
