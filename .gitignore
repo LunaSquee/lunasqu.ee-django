@@ -1,6 +1,6 @@
 lunasquee/
 db.sqlite3
 manage.py
-static/
+/static/
 usercontent/
 *.py[cod]

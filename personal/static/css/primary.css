@@ -1,0 +1,386 @@
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background: url("/static/images/ponyville_day.jpg");
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
+  background-color: #b9e8ff;
+  font-family: Open Sans, Everson Mono, Helvetica;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin-top: 0;
+}
+a {
+  color: #008000;
+  text-decoration: none;
+}
+a:hover {
+  color: #00b100;
+}
+blockquote {
+  background-color: rgba(187,233,255,0.6);
+  padding: 5px;
+  border-left: 5px solid #1da6ff;
+  border-radius: 0 10px 10px 0;
+}
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+  padding: 5px;
+  border-radius: 2px;
+  border: 1px solid #ddd;
+  box-shadow: inset 2px 2px 5px #d8d8d8;
+}
+.button,
+input[type=submit] {
+  padding: 1px 13px;
+  font-size: 18px;
+  background-color: #f6f6f6;
+  border-radius: 5px;
+  border: 1px solid #d4d4d4;
+  cursor: pointer;
+  color: #008000;
+}
+.button:hover,
+input[type=submit]:hover {
+  background-color: #f9f9f9;
+  color: #00b100;
+}
+.replybtn {
+  float: right;
+}
+.clearfix {
+  overflow: auto;
+}
+.user {
+  width: auto;
+  float: right;
+  padding: 10px;
+  background-color: rgba(238,238,238,0.6);
+  margin-right: 10px;
+}
+.logo {
+  margin: 20px;
+  font-size: 40px;
+  color: #009dff;
+  text-shadow: 2px 2px 3px #1da6ff;
+}
+.navigator {
+  width: 200px;
+  background-color: rgba(238,238,238,0.6);
+  margin: 10px;
+  float: left;
+}
+.content {
+  background-color: rgba(238,238,238,0.6);
+  margin: 10px;
+  margin-left: 220px;
+  padding: 20px;
+  min-height: 80vh;
+  position: relative;
+}
+.navigator ul {
+  padding: 0;
+  margin: 20px;
+  list-style-type: none;
+}
+.navigator ul li {
+  margin-bottom: 10px;
+}
+.navigator ul li a {
+  font-size: 22px;
+  text-decoration: none;
+}
+.ttitle {
+  font-size: 26px;
+  font-weight: bold;
+}
+.boxheader,
+.boxfooter {
+  padding: 10px;
+  background-color: #fdfdfd;
+  border-radius: 10px 10px 0 0;
+  font-size: 20px;
+  border-bottom: 2px solid #ddd;
+}
+.boxfooter {
+  border-bottom: none;
+  border-radius: 0 0 10px 10px;
+}
+#postlist {
+  border-left: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+}
+#postlist .p_username {
+  display: block;
+  font-size: 20px;
+  height: 30px;
+  background-color: #d5efff;
+  padding: 10px;
+}
+#postlist .post {
+  padding: 10px;
+  border-bottom: 2px solid #ddd;
+  min-height: 240px;
+  position: relative;
+  background-color: #fff;
+}
+#postlist .post .poster {
+  float: left;
+  width: 140px;
+  min-height: 160px;
+  border-right: 1px solid #f3f3f3;
+  padding-right: 5px;
+}
+#postlist .post .poster .avatar {
+  max-width: 140px;
+  max-height: 200px;
+  min-width: 80px;
+  min-height: 80px;
+  display: block;
+}
+#postlist .post .poster .reputation {
+  display: block;
+  text-align: center;
+  color: #1da6ff;
+  margin-bottom: 2px;
+}
+#postlist .post .poster .newparam {
+  display: block;
+  font-size: 14px;
+  color: #7d7d7d;
+}
+#postlist .post .container {
+  white-space: pre-line;
+  word-wrap: break-word;
+  margin-left: 150px;
+  overflow: auto;
+  min-height: 220px;
+  max-height: 2046px;
+  margin-bottom: 20px;
+}
+#postlist .post .subarea {
+  width: 100%;
+  margin: 10px;
+  height: 10px;
+}
+#postlist .post .subarea .date {
+  float: right;
+  margin-right: 10px;
+  font-size: 15px;
+  font-style: italic;
+  color: #9c9c9c;
+}
+#list table {
+  background-color: #fff;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  border-collapse: collapse;
+}
+#list table th {
+  background-color: #fafafa;
+  border-bottom: 1px solid #ddd;
+}
+#list table tr:nth-child(even) {
+  background-color: #f5f5f5;
+}
+#list table tr td:nth-child(1) {
+  width: 400px;
+}
+#list table tr .count_part {
+  width: 40px;
+  text-align: center;
+}
+#list table .title .fa-ban {
+  color: #f00;
+}
+#list table .title .fa-thumb-tack {
+  color: #ffa500;
+}
+.forumtitle,
+.topictitle,
+.sectiontitle {
+  display: block;
+  margin: 10px 0px 0px 0px;
+  font-size: 36px;
+  font-weight: bold;
+  color: #0068b7;
+  display: block;
+}
+.forumdescription,
+.topicdescription {
+  color: #0056ff;
+  font-size: 20px;
+  display: block;
+  margin-bottom: 20px;
+}
+.forumnavigator {
+  margin: 10px 0px 30px 0px;
+  display: block;
+}
+.forumnavigator .instance {
+  position: relative;
+  background: #eee;
+  border: 1px solid #ddd;
+  padding: 4px 10px 4px 30px;
+  font-size: 16px;
+  float: left;
+}
+.forumnavigator .instance:after,
+.forumnavigator .instance:before {
+  left: 100%;
+  top: 50%;
+  border: solid transparent;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+}
+.forumnavigator .instance:after {
+  border-color: rgba(238,238,238,0);
+  border-left-color: #eee;
+  border-width: 15px;
+  margin-top: -15px;
+}
+.forumnavigator .instance:before {
+  border-color: rgba(221,221,221,0);
+  border-left-color: #ddd;
+  border-width: 16px;
+  margin-top: -16px;
+}
+#id_title {
+  padding: 6px;
+  width: 500px;
+  display: block;
+  box-shadow: inset 1px 1px 5px #ddd;
+  border: 1px solid #d4d4d4;
+  border-radius: 5px;
+}
+.successbox,
+.errorbox {
+  background-color: rgba(219,255,219,0.7);
+  border: 1px solid #00b100;
+  border-radius: 5px;
+  padding: 20px;
+}
+.errorbox {
+  background-color: rgba(255,223,223,0.7);
+  border: 1px solid #f00;
+}
+.errorlist {
+  margin: 5px;
+  background-color: rgba(255,223,223,0.7);
+  border-radius: 5px;
+  border: 1px solid #f00;
+  padding: 20px;
+  list-style-type: none;
+}
+.blog_post .title {
+  display: block;
+  font-size: 26px;
+  font-weight: bold;
+}
+.registerbox .helptext {
+  display: block;
+  font-size: 12px;
+  color: #f00;
+}
+.registerbox label {
+  width: 200px;
+  display: inline-block;
+}
+.loginbox label {
+  width: 100px;
+  display: inline-block;
+}
+.profile .leftside {
+  width: 235px;
+  padding: 5px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  border-right: 1px solid rgba(206,206,206,0.5);
+}
+.profile .leftside .avatarcontainer {
+  height: 240px;
+  width: 240px;
+  position: relative;
+}
+.profile .leftside .avatarcontainer .avatar {
+  max-width: 100%;
+  max-height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+}
+.profile .leftside .userdata .reputation {
+  display: block;
+  font-size: 20px;
+  color: #0068b7;
+  text-align: center;
+  margin: 10px 0;
+}
+.profile .leftside .userdata .postcount {
+  display: block;
+}
+.profile .rightside {
+  position: absolute;
+  left: 246px;
+  top: 0;
+  bottom: 0;
+  right: 0;
+}
+.profile .rightside .profheader {
+  padding: 10px;
+}
+.profile .rightside .profheader .display_name {
+  display: block;
+  font-size: 38px;
+  font-weight: bold;
+  color: #1da6ff;
+}
+.profile .rightside .profheader .username {
+  font-size: 16px;
+  color: #737373;
+}
+.profile .rightside .profcontent {
+  padding: 10px;
+}
+@media all and (max-width: 699px) {
+  body {
+    font-size: 12px;
+  }
+  .user {
+    float: initial;
+    margin: 10px auto;
+    text-align: center;
+  }
+  .logo {
+    text-align: center;
+  }
+  .navigator {
+    float: initial;
+    margin: 10px auto;
+    padding: 10px 0;
+  }
+  .content {
+    margin-left: 0;
+    margin: 10px auto;
+  }
+  #list table tr td:nth-child(1) {
+    width: 200px;
+  }
+}
