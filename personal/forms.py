@@ -5,6 +5,7 @@ from django import forms
 from .models import Profile
 from django.core.files.images import get_image_dimensions
 from personal.bleach import bleach_clean
+from django.contrib import messages
 
 class ResendActivationEmailForm(forms.Form):
     username = forms.CharField(required=True)
@@ -31,18 +32,18 @@ class SettingsForm(forms.ModelForm):
             if w > max_width or h > max_height:
                 raise forms.ValidationError(
                     u'Please use an image that is '
-                     '%s x %s pixels or smaller.' % (max_width, max_height))
+                     '%(width)s x %(height)s pixels or smaller.', params={'width': max_width, 'height': max_height}, code='invalid')
 
             #validate content type
             main, sub = avatar.content_type.split('/')
             if not (main == 'image' and sub in ['jpeg', 'pjpeg', 'gif', 'png']):
                 raise forms.ValidationError(u'Please use a JPEG, '
-                    'GIF or PNG image.')
+                    'GIF or PNG image.', code='invalid')
 
             #validate file size
             if len(avatar) > (200 * 1024):
                 raise forms.ValidationError(
-                    u'Avatar file size may not exceed 200k.')
+                    u'Avatar file size may not exceed 200k.', code='invalid')
 
         except AttributeError:
             pass

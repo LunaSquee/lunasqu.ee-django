@@ -32,11 +32,9 @@ def view_profile(request, **kwargs):
 @login_required
 def edit_settings(request, **kwargs):
     user = request.user
-    if request.method == 'POST':
-        #form_ex = SettingsForm(request.POST, request.FILES, instance=request.user.profile)
-        #if form_ex.is_valid() and 'avatar' in request.FILES:
-        #    user.profile.avatar.delete()
+    form = SettingsForm(initial={'email': request.user.email}, instance=request.user.profile)
 
+    if request.method == 'POST':
         form = SettingsForm(request.POST, request.FILES, instance=request.user.profile)
 
         if form.has_changed():
@@ -50,10 +48,6 @@ def edit_settings(request, **kwargs):
                 user.save()
 
                 messages.success(request, 'Profile details updated.')
-
-        return HttpResponseRedirect('/accounts/settings')
-    else:
-        form = SettingsForm(initial={'email': request.user.email}, instance=request.user.profile)
 
     return render_to_response('registration/settings.html', {
             'form': form,
