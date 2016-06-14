@@ -23,7 +23,7 @@
                 <td class="count_part" {% if forloop.last %}class="last"{% endif %}>{{ forum.num_posts }}</td>
                 <td {% if forloop.last %}class="last"{% endif %}>
                 {%if forum.last_post %}
-                    <a href="{% url 'topic-detail' forum.last_post.topic.pk %}?find_post={{forum.last_post.pk}}">{{ forum.last_post.title }}</a><br>By <a href="{%url 'view_other_profile' forum.last_post.creator%}">{{forum.last_post.creator.profile.display_name|default_if_none:forum.last_post.creator.username}}</a> on {{forum.last_post.created|date:"l, N d Y, H:i"}}</td>
+                    <a href="{% url 'topic-detail' forum.last_post.topic.pk %}?find_post={{forum.last_post.pk}}">{{ forum.last_post.title }}</a><br><span class="createdby">By <a href="{%url 'view_other_profile' forum.last_post.creator%}">{{forum.last_post.creator.profile.displayable_name}}</a> on {{forum.last_post.created|date:"l, N d Y, H:i"}}</span></td>
                 {%else%}
                     <small><i>Nobody has posted here yet!</i></small>
                 {%endif%}

@@ -44,12 +44,12 @@
     <tr>
         <td {% if forloop.last %}class="last"{% endif %}>
         <div class="title">{%if topic.closed%}<i class="fa fa-ban fa-fw" title="Topic is closed for new replies"></i>{%endif%}{%if topic.pinned%}<i class="fa fa-thumb-tack fa-fw" title="Pinned topic"></i>{%endif%}
-        <a href="{% url 'topic-detail' topic.pk %}">{{ topic.title }}</a><br>
-            Started by <a href="{% url 'view_other_profile' topic.creator.username %}" target="_blank">{{topic.creator.profile.display_name|default_if_none:topic.creator.username}}</a> on {{topic.created|date:"l, N d Y, H:i"}}</div></td>
+        <a href="{% url 'topic-detail' topic.pk %}">{{ topic.title }}</a><br><span class="createdby">
+            Started by <a href="{% url 'view_other_profile' topic.creator.username %}" target="_blank">{{topic.creator.profile.displayable_name}}</a> on {{topic.created|date:"l, N d Y, H:i"}}</span></div></td>
         <td class="count_part{% if forloop.last %} last{% endif %}">{{ topic.num_replies }}</td>
         <td {% if forloop.last %}class="last"{% endif %}>
         {%if topic.last_post%}
-            <a href="{% url 'topic-detail' topic.last_post.topic.pk %}?find_post={{topic.last_post.pk}}">{{ topic.last_post.title }}</a><br>By <a href="{%url 'view_other_profile' topic.last_post.creator%}">{{topic.last_post.creator.profile.display_name|default_if_none:topic.last_post.creator.username}}</a> on {{topic.last_post.created|date:"l, N d Y, H:i"}}
+            <a href="{% url 'topic-detail' topic.last_post.topic.pk %}?find_post={{topic.last_post.pk}}">{{ topic.last_post.title }}</a><br><span class="createdby">By <a href="{%url 'view_other_profile' topic.last_post.creator%}">{{topic.last_post.creator.profile.displayable_name}}</a> on {{topic.last_post.created|date:"l, N d Y, H:i"}}</span>
         {%else%}
             <small><i>Nobody has posted here yet!</i></small>
         {%endif%}

@@ -21,6 +21,11 @@ class Profile(models.Model):
 
 		return "/media/"+str(self.avatar)
 
+	def displayable_name(self):
+		if not self.display_name:
+			return self.user.username
+		return self.display_name
+
 	def reputation(self):
 		return 0
 

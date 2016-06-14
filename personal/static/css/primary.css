@@ -205,6 +205,9 @@ input[type=submit]:hover {
 #list table .title .fa-thumb-tack {
   color: #ffa500;
 }
+#list table .createdby {
+  font-size: 14px;
+}
 .forumtitle,
 .topictitle,
 .sectiontitle {
