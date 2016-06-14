@@ -8,7 +8,7 @@
 	{% for post in object_list %}
 	<div class="blog_post">
 		<span class="title"><a href="{% url 'view_blog_post' post.id %}">{{post.title}}</a></span>
-		<span class="date">{{ post.date|date:"d/m/Y H:M:s" }}</span>
+		<span class="date">{{ post.date|date:"d/m/Y H:i:s" }}</span>
 		<div class="postbody">{{post.body|safe|linebreaks}}</div>
 	</div>
 	{% endfor %}
