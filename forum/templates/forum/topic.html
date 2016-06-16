@@ -36,23 +36,8 @@
 {%endif%}
 </div>
 <div id="postlist">
-    {% if posts.number == 1 %}
-    <a class="p_username" href="{% url 'view_other_profile' topic.creator.username %}" target="_blank">{{ topic.creator.profile.displayable_name}}</a>
-    <div class="post">
-        <div class="poster">
-            <img class="avatar" src="{{ topic.creator.profile.get_avatar }}">
-            <span class="reputation{%if topic.creator.profile.reputation < 0%} negative{%endif%}"><span>{{topic.creator.profile.reputation}}</span> Reputation</span>
-            <span class="post_count newparam">Posts: <span>{{topic.creator.profile.get_post_count}}</span></span>
-            <span class="topic_count newparam">Topics: <span>{{topic.creator.profile.get_topic_count}}</span></span>
-        </div>
-        <div class="container">{{ topic.description|safe }}</div>
-        <div class="subarea">
-            <span class="date">{{ topic.created|date:"l, N d Y, H:i" }}</span>
-        </div>
-    </div>
-    {% endif %}
     {% for post in posts.object_list %}
-    <a class="p_username" href="{% url 'view_other_profile' post.creator.username %}" target="_blank" class="p_username" id="post-{{post.pk}}">{{ post.creator.profile.displayable_name}}</a>
+    <a class="p_username" href="{% url 'view_other_profile' post.creator.username %}" target="_blank" class="p_username" id="post-{{posts.number}}" data-post-id="{{post.pk}}">{{ post.creator.profile.displayable_name}}</a>
         <div class="post">
             <div class="poster">
                 <img class="avatar" src="{{ post.creator.profile.get_avatar }}">
@@ -62,7 +47,13 @@
             </div>
             <div class="container">{{ post.body|safe }}</div>
             <div class="subarea">
+                {% if post.creator == user and not post.closed %}
+                <a href="{% url 'reply-edit' post.pk %}" class="button">Edit</a>
+                {% endif %}
                 <span class="date">{{ post.created|date:"l, N d Y, H:i" }}</span>
+                {% if post.is_modified %}
+                <span class="date updated">Updated {{ post.updated|date:"l, N d Y, H:i" }}</span>
+                {% endif %}
             </div>
         </div>
     {% endfor %}

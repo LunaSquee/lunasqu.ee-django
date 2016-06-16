@@ -13,12 +13,20 @@ from django.template.context_processors import csrf
 from forum.models import Section, Forum, Topic, Post
 from forum.forms import TopicForm, PostForm
 
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
 from django.utils import timezone
 
 from forum.settings import *
 
 from personal.bleach import bleach_clean
+
+def get_client_ip(request):
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[0]
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    return ip
 
 def mk_user_meta(user):
     metadict = user
@@ -58,6 +66,30 @@ def mk_paginator(request, items, num_items):
         items = paginator.page(paginator.num_pages)
     return items
 
+@permission_required("forum.topic.can_edit")
+def pintopic(request, topic_id):
+    topic = Topic.objects.get(pk=topic_id)
+    
+    if topic.pinned:
+        topic.pinned = False
+    else:
+        topic.pinned = True
+    topic.save()
+
+    return HttpResponseRedirect(reverse('forum-detail', args=(topic.forum.id, )))
+
+@permission_required("forum.topic.can_edit")
+def closetopic(request, topic_id):
+    topic = Topic.objects.get(pk=topic_id)
+    
+    if topic.closed:
+        topic.closed = False
+    else:
+        topic.closed = True
+    topic.save()
+
+    return HttpResponseRedirect(reverse('forum-detail', args=(topic.forum.id, )))
+
 def forum(request, forum_id):
     """Listing of topics in a forum."""
     topics = Topic.objects.filter(forum=forum_id).order_by("-pinned", "-created")
@@ -94,7 +126,7 @@ def post_reply(request, topic_id):
             post.title = 'RE: '+topic.title
             post.body = bleach_clean(form.cleaned_data['body'])
             post.creator = request.user
-            post.user_ip = request.META['REMOTE_ADDR']
+            post.user_ip = get_client_ip(request)
 
             post.save()
 
@@ -104,6 +136,37 @@ def post_reply(request, topic_id):
             'form': form,
             'topic': topic,
             'forum': topic.forum,
+            'editing': False,
+        }, context_instance=RequestContext(request))
+
+@login_required
+def post_reply_edit(request, post_id):
+    post = Post.objects.get(pk=post_id)
+    topic = post.topic
+    user = request.user
+    form = PostForm(instance=post)
+
+    if not user.id == post.creator.id:
+         return render(request, 'personal/basic.html', {'content':['You do not own this post.']})
+    
+    if topic.closed:
+        return render(request, 'personal/basic.html', {'content':['This topic is closed.']})
+
+    if request.method == 'POST':
+        form = PostForm(request.POST, instance=post)
+
+        if form.is_valid():
+
+            post.body = bleach_clean(form.cleaned_data['body'])
+            post.save()
+
+            return HttpResponseRedirect(reverse('topic-detail', args=(topic.id, )))
+
+    return render_to_response('forum/reply.html', {
+            'form': form,
+            'topic': topic,
+            'forum': topic.forum,
+            'editing': True,
         }, context_instance=RequestContext(request))
 
 @login_required
@@ -123,6 +186,15 @@ def new_topic(request, forum_id):
             topic.creator = request.user
 
             topic.save()
+
+            tpkPost = Post()
+            tpkPost.topic = topic
+            tpkPost.title = topic.title
+            tpkPost.body = bleach_clean(form.cleaned_data['description'])
+            tpkPost.creator = request.user
+            tpkPost.user_ip = get_client_ip(request)
+
+            tpkPost.save()
 
             return HttpResponseRedirect(reverse('topic-detail', args=(topic.id, )))
 

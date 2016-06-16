@@ -16,6 +16,6 @@
 			<input class="submit-button" type="submit" value="Done">
 			<input type="hidden" name="next" value="{{next}}">
 		</form>
-		<script> CKEDITOR.replace( 'id_bio' ); </script>
+		<script> (function() { CKEDITOR.replace( 'id_bio' ); })() </script>
 	</div>
 {% endblock %}

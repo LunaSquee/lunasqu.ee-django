@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.contrib import admin
 from django.utils.translation import ugettext_lazy as _
+from django.utils import timezone
 
 class Section(models.Model):
     title = models.CharField(max_length=60)
@@ -13,10 +14,17 @@ class Section(models.Model):
 class Forum(models.Model):
     title = models.CharField(max_length=60)
     description = models.TextField(blank=True, default='')
-    updated = models.DateTimeField(auto_now=True)
-    created = models.DateTimeField(auto_now=True)
+    updated = models.DateTimeField()
+    created = models.DateTimeField(editable=False)
     creator = models.ForeignKey(User, blank=True, null=True)
     section = models.ForeignKey(Section)
+
+    def save(self, *args, **kwargs):
+        ''' On save, update timestamps '''
+        if not self.id:
+            self.created = timezone.now()
+        self.updated = timezone.now()
+        return super(Forum, self).save(*args, **kwargs)
 
     def __unicode__(self):
         return self.title
@@ -41,11 +49,18 @@ class Topic(models.Model):
     title = models.CharField(max_length=60)
     description = models.TextField(max_length=10000, blank=True, null=True)
     forum = models.ForeignKey(Forum)
-    created = models.DateTimeField(auto_now=True)
+    created = models.DateTimeField(editable=False)
     creator = models.ForeignKey(User, blank=True, null=True)
-    updated = models.DateTimeField(auto_now=True)
+    updated = models.DateTimeField()
     closed = models.BooleanField(blank=True, default=False)
     pinned = models.BooleanField(blank=True, default=False)
+
+    def save(self, *args, **kwargs):
+        ''' On save, update timestamps '''
+        if not self.id:
+            self.created = timezone.now()
+        self.updated = timezone.now()
+        return super(Topic, self).save(*args, **kwargs)
 
     def num_posts(self):
         return self.post_set.count()
@@ -62,18 +77,30 @@ class Topic(models.Model):
 
 class Post(models.Model):
     title = models.CharField(max_length=60)
-    created = models.DateTimeField(auto_now_add=True)
+    created = models.DateTimeField(editable=False)
     creator = models.ForeignKey(User, blank=True, null=True)
-    updated = models.DateTimeField(auto_now=True)
+    updated = models.DateTimeField()
     topic = models.ForeignKey(Topic)
     body = models.TextField(max_length=10000)
     user_ip = models.GenericIPAddressField(blank=True, null=True)
+
+    def save(self, *args, **kwargs):
+        ''' On save, update timestamps '''
+        if not self.id:
+            self.created = timezone.now()
+        self.updated = timezone.now()
+        return super(Post, self).save(*args, **kwargs)
 
     def __unicode__(self):
         return u"%s - %s - %s" % (self.creator, self.topic, self.title)
 
     def short(self):
         return u"%s - %s\n%s" % (self.creator, self.title, self.created.strftime("%b %d, %H:%M"))
+
+    def is_modified(self):
+        if self.updated.replace(microsecond=0) > self.created.replace(microsecond=0):
+            return True
+        return False
 
     short.allow_tags = True
 

@@ -7,12 +7,20 @@
     <a href="/forum" class="instance" style="z-index: 3;">{{forum.section.title}}</a>
     <a href="{% url 'forum-detail' forum.pk %}" class="instance" style="z-index: 2;">{{forum.title}}</a>
     <a href="{% url 'topic-detail' topic.pk %}" class="instance" style="z-index: 1;">{{topic.title}}</a>
+    {% if not editing %}
     <span class="instance">New reply</span>
+    {% else %}
+    <span class="instance">Edit reply</span>
+    {% endif %}
 </div><br>
 <!-- Reply Form -->
+{% if not editing %}
 <i><small>Replying to topic:</small></i>
+{% else %}
+<i><small>Editing reply to topic:</small></i>
+{% endif %}
 <span class="topictitle">{{topic.title}}</span>
-<form action="{% url 'reply' topic.id %}" method="POST">
+<form action method="POST">
     {% csrf_token %} 
     {{ form.as_p }}
     <input type="submit" value="Submit" />
