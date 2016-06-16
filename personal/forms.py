@@ -47,6 +47,8 @@ class SettingsForm(forms.ModelForm):
 
         except AttributeError:
             pass
+        except TypeError:
+            pass
 
         return avatar
 
