@@ -69,6 +69,8 @@ input[type=submit]:hover {
 }
 .logo {
   margin: 20px;
+}
+.logo a {
   font-size: 40px;
   color: #009dff;
   text-shadow: 2px 2px 3px #1da6ff;

@@ -13,8 +13,8 @@ from django.conf import settings
 def index(request):
     return render(request, 'personal/index.html')
 
-def contact(request):
-    return render(request, 'personal/basic.html', {'content':['You can contact me by sending me an email at', 'imsonotsleepy@gmail.com']})
+def about(request):
+    return render(request, 'personal/about.html')
 
 def view_profile(request, **kwargs):
     context = {}
