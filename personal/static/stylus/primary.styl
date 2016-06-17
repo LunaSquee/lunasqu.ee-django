@@ -121,7 +121,6 @@ input[type="text"], input[type="email"], input[type="password"]
             float: left
             width: 140px
             min-height: 160px
-            border-right: 1px solid #f3f3f3
             padding-right: 5px
             .avatar
                 max-width: 140px
@@ -146,9 +145,8 @@ input[type="text"], input[type="email"], input[type="password"]
             max-height: 2046px
             margin-bottom: 20px
         .subarea
-            margin: 10px
-            height: 10px
             margin-left: 150px
+            min-height: 24px
             .date 
                 float: right
                 font-size: 15px
@@ -158,6 +156,13 @@ input[type="text"], input[type="email"], input[type="password"]
                     color: #000 !important
                     font-weight: bolder
                     margin-right: 10px
+        .vertical_divider
+            position: absolute
+            top: 0
+            left: 155px
+            bottom: 0
+            width: 1px
+            background-color: #f3f3f3
 
 #list table
     background-color: #FFF
@@ -363,3 +368,6 @@ input[type="text"], input[type="email"], input[type="password"]
     .content
         margin-left: 0
         margin: 10px auto
+    .post
+        .date
+            font-size: 10px !important

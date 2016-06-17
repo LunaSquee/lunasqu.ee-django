@@ -139,7 +139,6 @@ input[type=submit]:hover {
   float: left;
   width: 140px;
   min-height: 160px;
-  border-right: 1px solid #f3f3f3;
   padding-right: 5px;
 }
 #postlist .post .poster .avatar {
@@ -169,9 +168,8 @@ input[type=submit]:hover {
   margin-bottom: 20px;
 }
 #postlist .post .subarea {
-  margin: 10px;
-  height: 10px;
   margin-left: 150px;
+  min-height: 24px;
 }
 #postlist .post .subarea .date {
   float: right;
@@ -183,6 +181,14 @@ input[type=submit]:hover {
   color: #000 !important;
   font-weight: bolder;
   margin-right: 10px;
+}
+#postlist .post .vertical_divider {
+  position: absolute;
+  top: 0;
+  left: 155px;
+  bottom: 0;
+  width: 1px;
+  background-color: #f3f3f3;
 }
 #list table {
   background-color: #fff;
@@ -404,5 +410,8 @@ input[type=submit]:hover {
   .content {
     margin-left: 0;
     margin: 10px auto;
+  }
+  .post .date {
+    font-size: 10px !important;
   }
 }
