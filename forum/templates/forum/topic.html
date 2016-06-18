@@ -37,7 +37,8 @@
 </div>
 <div id="postlist">
     {% for post in posts.object_list %}
-    <a class="p_username" href="{% url 'view_other_profile' post.creator.username %}" target="_blank" class="p_username" id="post-{{posts.number}}" data-post-id="{{post.pk}}">{{ post.creator.profile.displayable_name}}</a>
+    <div id="post-{{post.pk}}">
+        <div class="p_username"><a href="{% url 'view_other_profile' post.creator.username %}" target="_blank" >{{ post.creator.profile.displayable_name}}</a><a href="#post-{{post.pk}}" class="postid">#{{post.pk}}</a></div>
         <div class="post">
             <div class="poster">
                 <img class="avatar" src="{{ post.creator.profile.get_avatar }}">
@@ -57,6 +58,7 @@
             </div>
             <span class="vertical_divider"></span>
         </div>
+    </div>
     {% endfor %}
 </div>
 <div class="boxfooter">

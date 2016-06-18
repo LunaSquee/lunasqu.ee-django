@@ -128,6 +128,11 @@ input[type=submit]:hover {
   background-color: #d5efff;
   padding: 10px;
 }
+#postlist .p_username .postid {
+  float: right;
+  font-size: 15px;
+  color: #86d0ff;
+}
 #postlist .post {
   padding: 10px;
   border-bottom: 2px solid #ddd;
