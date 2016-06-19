@@ -172,6 +172,10 @@ input[type=submit]:hover {
   max-height: 2046px;
   margin-bottom: 20px;
 }
+#postlist .post .container * {
+  max-width: 100% !important;
+  max-height: 200% !important;
+}
 #postlist .post .subarea {
   margin-left: 150px;
   min-height: 24px;
