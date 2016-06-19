@@ -8,13 +8,26 @@
 <div id="list">
     <table border="0" cellpadding="4" width="100%">
         <tr>
+            <th class="indic">&nbsp;</th>
             <th>Forum</th>
             <th class="count_part">Topics</th>
             <th class="count_part">Posts</th>
             <th>Last post</th>
+            {% if "forum.change_forum" in perms %}
+            <th>Actions</th>
+            {% endif %}
         </tr>
         {% for forum in value.forums %}
             <tr>
+                <td class="indic{% if forloop.last %} last{% endif %}">
+                    <span>
+                    {% if forum.closed %}
+                        <i class="fa fa-lock" title="This forum is locked"></i>
+                    {% else %}
+                        <i class="fa fa-user" title="Registered users can post here"></i>
+                    {% endif %}
+                    </span>
+                </td>
                 <td {% if forloop.last %}class="last"{% endif %}>
                     <div class="title"> <a href="{% url 'forum-detail' forum.pk %}">{{ forum.title }}</a><br>
                     <span>{{forum.description}}</span></div>
@@ -23,10 +36,18 @@
                 <td class="count_part" {% if forloop.last %}class="last"{% endif %}>{{ forum.num_posts }}</td>
                 <td {% if forloop.last %}class="last"{% endif %}>
                 {%if forum.last_post %}
-                    <a href="{% url 'topic-detail' forum.last_post.topic.pk %}?find_post={{forum.last_post.pk}}">{{ forum.last_post.title }}</a><br><span class="createdby">By <a href="{%url 'view_other_profile' forum.last_post.creator%}">{{forum.last_post.creator.profile.displayable_name}}</a> on {{forum.last_post.created|date:"l, N d Y, H:i"}}</span></td>
+                    <a href="{% url 'topic-detail' forum.last_post.topic.pk %}?find_post={{forum.last_post.pk}}">{{ forum.last_post.title }}</a><br><span class="createdby">By <a href="{%url 'view_other_profile' forum.last_post.creator%}">{{forum.last_post.creator.profile.displayable_name}}</a> on {{forum.last_post.created|date:"l, N d Y, H:i"}}</span>
                 {%else%}
                     <small><i>Nobody has posted here yet!</i></small>
                 {%endif%}
+                </td>
+                {% if "forum.change_forum" in perms %}
+                    <td class="actions{% if forloop.last %} last{% endif %}">
+                        {% if "forum.can_lock_forum" in perms %}
+                            <a href="{% url 'forum-close' forum.pk %}" title="Lock forum"><i class="fa fa-lock fa-fw"></i></a>
+                        {% endif %}
+                    </td>
+                {% endif %}
             </tr>
         {% endfor %}
     </table>

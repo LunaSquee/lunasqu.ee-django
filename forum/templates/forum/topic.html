@@ -32,7 +32,9 @@
 <div class="boxheader">
 <span class="replycount">This topic has {{post_count}} replies</span>
 {% if not topic.closed %}
-    <a class="button replybtn" href="{% url 'reply' pk %}">Reply</a>
+    {% if not forum.closed or perms.forum.can_post_lock_forum %}
+        <a class="button replybtn" href="{% url 'reply' pk %}">Reply</a>
+    {%endif%}
 {%endif%}
 </div>
 <div id="postlist">
@@ -49,7 +51,9 @@
             <div class="container">{{ post.body|safe }}</div>
             <div class="subarea">
                 {% if post.creator == user and not post.closed %}
-                <a href="{% url 'reply-edit' post.pk %}" class="button">Edit</a>
+                    {% if not forum.closed or perms.forum.can_post_lock_forum %}
+                        <a href="{% url 'reply-edit' post.pk %}" class="button">Edit</a>
+                    {% endif %}
                 {% endif %}
                 <span class="date">{{ post.created|date:"l, N d Y, H:i" }}</span>
                 {% if post.is_modified %}
@@ -64,7 +68,9 @@
 <div class="boxfooter">
 &nbsp;
 {% if not topic.closed %}
-    <a class="button replybtn" href="{% url 'reply' pk %}">Reply</a>
+    {% if not forum.closed or perms.forum.can_post_lock_forum %}
+        <a class="button replybtn" href="{% url 'reply' pk %}">Reply</a>
+    {%endif%}
 {%endif%}
 </div>
 

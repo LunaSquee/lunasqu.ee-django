@@ -212,6 +212,19 @@ input[type=submit]:hover {
   width: 40px;
   text-align: center;
 }
+#list table .indic {
+  width: 40px;
+  text-align: center;
+}
+#list table .indic .fa {
+  font-size: 30px;
+}
+#list table .indic .fa.fa-lock {
+  color: #ffa500;
+}
+#list table .indic .fa.fa-user {
+  color: #1da6ff;
+}
 #list table .title .fa-ban {
   color: #f00;
 }

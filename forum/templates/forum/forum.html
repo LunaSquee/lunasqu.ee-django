@@ -11,7 +11,11 @@
 <span class="forumtitle">{{forum.title}}</span>
 <span class="forumdescription">{{forum.description}}</span>
 <!-- Threads  -->
+{% if not forum.closed or perms.forum.can_post_lock_forum %}
 <a id="new_topic" class="button" href="{% url 'new-topic' pk %}">Start New Topic</a>
+{% else %}
+<div class="errorbox">This forum is closed for new topics.</div>
+{% endif %}
 <br />
 <br />
 <!-- Next/Prev page links  -->
@@ -35,16 +39,18 @@
 <div id="list">
 <table border="0" cellpadding="4" width="100%">
     <tr>
+        <th class="indic">&nbsp;</th>
         <th>Topics</th>
         <th class="count_part">Replies</th>
         <th>Last post</th>
-        {% if "forum.topic.can_change" in perms %}
+        {% if perms.forum.change_forum %}
         <th>Actions</th>
         {% endif %}
     </tr>
 
     {% for topic in topics.object_list %}
     <tr>
+        <td class="indic{% if forloop.last %} last{% endif %}">&nbsp;</td>
         <td {% if forloop.last %}class="last"{% endif %}>
         <div class="title">{%if topic.closed%}<i class="fa fa-ban fa-fw" title="Topic is closed for new replies"></i>{%endif%}{%if topic.pinned%}<i class="fa fa-thumb-tack fa-fw" title="Pinned topic"></i>{%endif%}
         <a href="{% url 'topic-detail' topic.pk %}">{{ topic.title }}</a><br><span class="createdby">
@@ -57,10 +63,14 @@
             <small><i>Nobody has posted here yet!</i></small>
         {%endif%}
         </td>
-        {% if "forum.topic.can_change" in perms %}
+        {% if perms.forum.change_topic %}
             <td class="actions{% if forloop.last %} last{% endif %}">
+            {% if perms.forum.can_pin_topic %}
             <a href="{% url 'topic-pin' topic.pk %}" title="Pin topic"><i class="fa fa-thumb-tack fa-fw"></i></a>
+            {% endif %}
+            {% if perms.forum.can_close_topic %}
             <a href="{% url 'topic-close' topic.pk %}" title="Close topic"><i class="fa fa-ban fa-fw"></i></a>
+            {% endif %}
             </td>
         {% endif %}
     </tr>

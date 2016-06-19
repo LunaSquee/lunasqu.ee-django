@@ -17,6 +17,7 @@ class Forum(models.Model):
     updated = models.DateTimeField()
     created = models.DateTimeField(editable=False)
     creator = models.ForeignKey(User, blank=True, null=True)
+    closed = models.BooleanField(blank=True, default=False)
     section = models.ForeignKey(Section)
 
     def save(self, *args, **kwargs):
@@ -44,6 +45,12 @@ class Forum(models.Model):
                     if not last: last = l
                     elif l.created > last.created: last = l
             return last
+
+    class Meta(object):
+        permissions = (
+            ("can_lock_forum", "Can change forum lock status"),
+            ("can_post_lock_forum", "Can post in locked forums"),
+        )
 
 class Topic(models.Model):
     title = models.CharField(max_length=60)
@@ -74,6 +81,12 @@ class Topic(models.Model):
 
     def __unicode__(self):
         return unicode(self.creator) + " - " + self.title
+
+    class Meta(object):
+        permissions = (
+            ("can_close_topic", "Can change topic closed status"),
+            ("can_pin_topic", "Can change topic pinned status"),
+        )
 
 class Post(models.Model):
     title = models.CharField(max_length=60)

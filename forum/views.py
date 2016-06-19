@@ -35,7 +35,7 @@ def index(request):
     """Main listing."""
     sections = Section.objects.all()
     forums = Forum.objects.all().order_by('id')
-    
+
     forsect = {}
     for forum in forums:
         if forum.section.title in forsect:
@@ -47,7 +47,6 @@ def index(request):
                                 'user': request.user,
                                 'sectionlist': forsect}, 
                                 context_instance=RequestContext(request))
-
 
 def add_csrf(request, ** kwargs):
     d = dict(user=request.user, ** kwargs)
@@ -66,7 +65,7 @@ def mk_paginator(request, items, num_items):
         items = paginator.page(paginator.num_pages)
     return items
 
-@permission_required("forum.topic.can_edit")
+@permission_required("forum.can_pin_topic")
 def pintopic(request, topic_id):
     topic = Topic.objects.get(pk=topic_id)
     
@@ -78,7 +77,7 @@ def pintopic(request, topic_id):
 
     return HttpResponseRedirect(reverse('forum-detail', args=(topic.forum.id, )))
 
-@permission_required("forum.topic.can_edit")
+@permission_required("forum.can_close_topic")
 def closetopic(request, topic_id):
     topic = Topic.objects.get(pk=topic_id)
     
@@ -89,6 +88,18 @@ def closetopic(request, topic_id):
     topic.save()
 
     return HttpResponseRedirect(reverse('forum-detail', args=(topic.forum.id, )))
+
+@permission_required("forum.can_lock_forum")
+def closeforum(request, forum_id):
+    forum = Forum.objects.get(pk=forum_id)
+    
+    if forum.closed:
+        forum.closed = False
+    else:
+        forum.closed = True
+    forum.save()
+
+    return HttpResponseRedirect(reverse('forum-index'))
 
 def forum(request, forum_id):
     """Listing of topics in a forum."""
@@ -112,9 +123,13 @@ def topic(request, topic_id):
 def post_reply(request, topic_id):
     form = PostForm()
     topic = Topic.objects.get(pk=topic_id)
-    
+    user = request.user
+
     if topic.closed:
         return render(request, 'personal/basic.html', {'content':['This topic is closed.']})
+
+    if topic.forum.closed and not user.has_perm('forum.can_post_lock_forum'):
+        return render(request, 'personal/basic.html', {'content':['This forum is locked.']})
 
     if request.method == 'POST':
         form = PostForm(request.POST)
@@ -152,6 +167,9 @@ def post_reply_edit(request, post_id):
     if topic.closed:
         return render(request, 'personal/basic.html', {'content':['This topic is closed.']})
 
+    if topic.forum.closed and not user.has_perm('forum.can_post_lock_forum'):
+        return render(request, 'personal/basic.html', {'content':['This forum is locked.']})
+
     if request.method == 'POST':
         form = PostForm(request.POST, instance=post)
 
@@ -173,7 +191,11 @@ def post_reply_edit(request, post_id):
 def new_topic(request, forum_id):
     form = TopicForm()
     forum = get_object_or_404(Forum, pk=forum_id)
+    user = request.user
     
+    if forum.closed and not user.has_perm('forum.can_post_lock_forum'):
+        return render(request, 'personal/basic.html', {'content':['This forum is locked.']})
+
     if request.method == 'POST':
         form = TopicForm(request.POST)
 
@@ -183,7 +205,7 @@ def new_topic(request, forum_id):
             topic.title = form.cleaned_data['title']
             topic.description = bleach_clean(form.cleaned_data['description'])
             topic.forum = forum
-            topic.creator = request.user
+            topic.creator = user
 
             topic.save()
 
@@ -191,7 +213,7 @@ def new_topic(request, forum_id):
             tpkPost.topic = topic
             tpkPost.title = topic.title
             tpkPost.body = bleach_clean(form.cleaned_data['description'])
-            tpkPost.creator = request.user
+            tpkPost.creator = user
             tpkPost.user_ip = get_client_ip(request)
 
             tpkPost.save()
