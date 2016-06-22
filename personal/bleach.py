@@ -35,6 +35,8 @@ bleach_attrs = {
     'div': filterdivs,
     'span': ['class', 'style', 'dir'],
     'table': ['border', 'cellpadding', 'style', 'cellspacing'],
+    'tr': ['style'],
+    'th': ['style'],
     'a': ['href', 'title', 'rel'],
     'img': ['alt', 'style', 'src'],
     'iframe': filter_iframe_content,
@@ -42,8 +44,8 @@ bleach_attrs = {
 }
 
 bleach_styles = [
-    'font-size', 'color', 'font-weigth', 'float', 'text-align', 'background', 'font-family', 'border', 'padding'
+    'font-size', 'width', 'height', 'color', 'font-weigth', 'float', 'text-align', 'background', 'background-color', 'font-family', 'border', 'padding'
 ]
 
 def bleach_clean(string):
-	return bleach.clean(string, tags=bleach_tags, attributes=bleach_attrs,styles=bleach_styles)
+    return bleach.clean(string, tags=bleach_tags, attributes=bleach_attrs,styles=bleach_styles)
