@@ -136,7 +136,7 @@ input[type=submit]:hover {
 #postlist .post {
   padding: 10px;
   border-bottom: 2px solid #ddd;
-  min-height: 240px;
+  min-height: 260px;
   position: relative;
   background-color: #fff;
 }
@@ -163,6 +163,9 @@ input[type=submit]:hover {
   display: block;
   font-size: 14px;
   color: #7d7d7d;
+}
+#postlist .post .poster .badge {
+  font-size: 10px;
 }
 #postlist .post .container {
   word-wrap: break-word;
