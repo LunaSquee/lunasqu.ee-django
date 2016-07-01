@@ -251,6 +251,16 @@ input[type=submit]:hover {
   color: #0068b7;
   display: block;
 }
+.forumtitle span,
+.topictitle span,
+.sectiontitle span {
+  color: #008000;
+}
+.forumtitle span:after,
+.topictitle span:after,
+.sectiontitle span:after {
+  content: ": ";
+}
 .forumdescription,
 .topicdescription {
   color: #0056ff;
@@ -341,6 +351,13 @@ input[type=submit]:hover {
   display: block;
   font-size: 26px;
   font-weight: bold;
+}
+.blog_post .date {
+  font-size: 13px;
+  font-style: italic;
+}
+.blog_post .date:before {
+  content: "Posted at ";
 }
 .registerbox .helptext {
   display: block;

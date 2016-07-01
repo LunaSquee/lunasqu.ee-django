@@ -1,14 +1,33 @@
 {% extends "personal/header.html" %}
 {% block title %}LunaSquee - Blog{% endblock %}
 {% block content %}
+	{% if posts.object_list and posts.paginator.num_pages > 1 %}
+	<div class="pagination">
+		<span class="step-links">
+			{% if posts.has_previous %}
+				<a href= "?page={{ posts.previous_page_number }}"><i class="fa fa-angle-double-left"></i>&nbsp;Previous</a>
+			{% endif %}
+
+			<span class="current">
+				&nbsp;Page {{ posts.number }} of {{ posts.paginator.num_pages }}
+			</span>
+
+			{% if posts.has_next %}
+				<a href="?page={{ posts.next_page_number }}">Next&nbsp;<i class="fa fa-angle-double-right"></i></a>
+			{% endif %}
+		</span>
+	</div>
+	{% endif %}
+
 	{% if user.is_superuser %}
 		<a href="{% url 'new_post' %}" class="button replybtn">New entry</a>
 	{% endif %}
 	<h2>LunaSquee's Blog</h2>
-	{% for post in object_list %}
+	{% for post in posts.object_list %}
 	<div class="blog_post">
-		<span class="title"><a href="{% url 'view_blog_post' post.id %}">{{post.title}}</a></span>
-		<span class="date">{{ post.date|date:"d/m/Y H:i:s" }}</span>
+		<span class="title"><a href="{% url 'view_blog_post' post.id post.slug %}">{{post.title}}</a></span>
+		<span class="date">{{ post.created|date:"d/m/Y H:i:s" }}</span>
+		<hr>
 		<div class="postbody">{{post.body|safe|linebreaks}}</div>
 	</div>
 	{% endfor %}

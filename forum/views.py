@@ -101,7 +101,7 @@ def closeforum(request, forum_id):
 
     return HttpResponseRedirect(reverse('forum-index'))
 
-def forum(request, forum_id):
+def forum(request, forum_id, slug):
     """Listing of topics in a forum."""
     topics = Topic.objects.filter(forum=forum_id).order_by("-pinned", "-created")
     topics = mk_paginator(request, topics, DJANGO_SIMPLE_FORUM_TOPICS_PER_PAGE)
@@ -111,7 +111,18 @@ def forum(request, forum_id):
     return render_to_response("forum/forum.html", add_csrf(request, topics=topics, pk=forum_id, forum=forum, section=forum.section),
                               context_instance=RequestContext(request))
 
-def topic(request, topic_id):
+def section(request, slug):
+    section = Section.objects.get(slug=slug)
+    
+    if not section:
+        return render(request, 'personal/basic.html', {'content':['No such forum section.']})
+
+    forums = Forum.objects.filter(section=section)
+
+    return render_to_response("forum/section.html", add_csrf(request, forums=forums, section=section),
+                              context_instance=RequestContext(request))
+
+def topic(request, topic_id, slug):
     """Listing of posts in a topic."""
     posts = Post.objects.filter(topic=topic_id).order_by("created")
     lessen_posts = mk_paginator(request, posts, DJANGO_SIMPLE_FORUM_REPLIES_PER_PAGE)
@@ -145,7 +156,7 @@ def post_reply(request, topic_id):
 
             post.save()
 
-            return HttpResponseRedirect(reverse('topic-detail', args=(topic.id, )))
+            return HttpResponseRedirect(reverse('topic-detail', args=(topic.id, topic.slug, )))
 
     return render_to_response('forum/reply.html', {
             'form': form,
@@ -178,7 +189,7 @@ def post_reply_edit(request, post_id):
             post.body = bleach_clean(form.cleaned_data['body'])
             post.save()
 
-            return HttpResponseRedirect(reverse('topic-detail', args=(topic.id, )))
+            return HttpResponseRedirect(reverse('topic-detail', args=(topic.id, topic.slug, )))
 
     return render_to_response('forum/reply.html', {
             'form': form,
@@ -218,7 +229,7 @@ def new_topic(request, forum_id):
 
             tpkPost.save()
 
-            return HttpResponseRedirect(reverse('topic-detail', args=(topic.id, )))
+            return HttpResponseRedirect(reverse('topic-detail', args=(topic.id, topic.slug, )))
 
     return render_to_response('forum/new-topic.html', {
             'form': form,

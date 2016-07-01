@@ -217,6 +217,10 @@ input[type="text"], input[type="email"], input[type="password"]
     font-weight: bold;
     color: #0068b7;
     display: block;
+    span
+        color: green;
+        &:after
+            content: ": "
 
 .forumdescription, .topicdescription
     color: #0056ff;
@@ -303,6 +307,11 @@ input[type="text"], input[type="email"], input[type="password"]
         display: block
         font-size: 26px
         font-weight: bold
+    .date
+        font-size: 13px
+        font-style: italic
+        &:before
+            content: "Posted at "
 
 .registerbox
     .helptext

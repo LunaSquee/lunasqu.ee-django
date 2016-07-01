@@ -1,15 +1,16 @@
 {% extends "personal/header.html" %}
-{% block title %}LunaSquee - Forums - Creating a new topic on {{forum.section.title}} | {{forum.title}}{% endblock %}
+{% block sitename %}<a href="/forum">LunaSquee Forums</a>{% endblock %}
+{% block title %}LunaSquee Forums - New topic on {{forum.section.title}}{% endblock %}
 {% block content %}
 <!-- Forum Navigator -->
 <div class="forumnavigator">
     <a href="/forum" class="instance" style="z-index: 3;">Forum index</a>
-    <a href="/forum" class="instance" style="z-index: 2;">{{forum.section.title}}</a>
-    <a href="{% url 'forum-detail' forum.pk %}" class="instance" style="z-index: 1;">{{forum.title}}</a>
+    <a href="{% url 'section-detail' forum.section.slug %}" class="instance" style="z-index: 2;">{{forum.section.title}}</a>
+    <a href="{% url 'forum-detail' forum.pk forum.slug %}" class="instance" style="z-index: 1;">{{forum.title}}</a>
     <span class="instance">New topic</span>
 </div><br>
 <!-- New Topic Form -->
-<span class="topictitle">Creating a new topic on <q>{{forum.description}}</q></span>
+<span class="topictitle">Create a new topic in {{forum.title}}</span>
 <form action="{% url 'new-topic' forum.id %}" method="POST">
     {% csrf_token %} 
     {{ form.as_p }}

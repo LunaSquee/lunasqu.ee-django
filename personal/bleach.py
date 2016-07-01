@@ -18,7 +18,7 @@ def filter_iframe_content(name, value):
          return (not p.netloc) or p.netloc in embed_allow
      return False
 
-def filterdivs(name, value):
+def filter_divs(name, value):
     if name in ('style'):
         return True
     if name == 'class':
@@ -32,7 +32,7 @@ bleach_tags = [
 ]
 
 bleach_attrs = {
-    'div': filterdivs,
+    'div': filter_divs,
     'span': ['class', 'style', 'dir'],
     'table': ['border', 'cellpadding', 'style', 'cellspacing'],
     'tr': ['style'],
@@ -48,4 +48,4 @@ bleach_styles = [
 ]
 
 def bleach_clean(string):
-    return bleach.clean(string, tags=bleach_tags, attributes=bleach_attrs,styles=bleach_styles)
+    return bleach.clean(string, tags=bleach_tags, attributes=bleach_attrs,styles=bleach_styles, strip=True)

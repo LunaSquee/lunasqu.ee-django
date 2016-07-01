@@ -1,14 +1,14 @@
 {% extends "personal/header.html" %}
 {% block sitename %}<a href="/forum">LunaSquee Forums</a>{% endblock %}
-{%block title%}LunaSquee Forums{%endblock%}
+{%block title%}LunaSquee Forums - {{section.title}}{%endblock%}
 {% block content %}
 <!-- Forums  -->
 <div class="forumnavigator">
     <a href="/forum" class="instance" style="z-index: 4;">Forum index</a>
+    <a href="{% url 'section-detail' section.slug %}" class="instance" style="z-index: 3;">{{section.title}}</a>
 </div><br>
-{% for key, value in sectionlist.items %}
-<span class="sectiontitle">{{key}}</span>
-<span class="forumdescription">{{value.description|safe}}</span>
+<span class="sectiontitle">{{section.title}}</span>
+<span class="forumdescription">{{section.description|safe}}</span>
 <div id="list">
     <table border="0" cellpadding="4" width="100%">
         <tr>
@@ -21,7 +21,7 @@
             <th>Actions</th>
             {% endif %}
         </tr>
-        {% for forum in value.forums %}
+        {% for forum in forums %}
             <tr>
                 <td class="indic{% if forloop.last %} last{% endif %}">
                     <span>
@@ -56,5 +56,4 @@
         {% endfor %}
     </table>
 </div>
-{% endfor %}
 {% endblock %}

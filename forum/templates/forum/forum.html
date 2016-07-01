@@ -1,14 +1,15 @@
 {% extends "personal/header.html" %}
-{%block title%}LunaSquee - Forums - {{section.title}} - {{forum.title}}{%endblock%}
+{% block sitename %}<a href="/forum">LunaSquee Forums</a>{% endblock %}
+{%block title%}LunaSquee Forums - {{section.title}} >> {{forum.title}}{%endblock%}
 {% block content %}
 <!-- Forum Navigator -->
 <div class="forumnavigator">
     <a href="/forum" class="instance" style="z-index: 3;">Forum index</a>
-    <a href="/forum" class="instance" style="z-index: 2;">{{section.title}}</a>
-    <a href="{% url 'forum-detail' forum.pk %}" class="instance" style="z-index: 1;">{{forum.title}}</a>
+    <a href="{% url 'section-detail' section.slug %}" class="instance" style="z-index: 2;">{{section.title}}</a>
+    <a href="{% url 'forum-detail' forum.pk forum.slug %}" class="instance" style="z-index: 1;">{{forum.title}}</a>
 </div><br>
 <!-- Forum Title -->
-<span class="forumtitle">{{forum.title}}</span>
+<span class="forumtitle"><span>Forum</span>{{forum.title}}</span>
 <span class="forumdescription">{{forum.description}}</span>
 <!-- Threads  -->
 {% if not forum.closed or perms.forum.can_post_lock_forum %}
@@ -53,12 +54,12 @@
         <td class="indic{% if forloop.last %} last{% endif %}">&nbsp;</td>
         <td {% if forloop.last %}class="last"{% endif %}>
         <div class="title">{%if topic.closed%}<i class="fa fa-ban fa-fw" title="Topic is closed for new replies"></i>{%endif%}{%if topic.pinned%}<i class="fa fa-thumb-tack fa-fw" title="Pinned topic"></i>{%endif%}
-        <a href="{% url 'topic-detail' topic.pk %}">{{ topic.title }}</a><br><span class="createdby">
+        <a href="{% url 'topic-detail' topic.pk topic.slug %}">{{ topic.title }}</a><br><span class="createdby">
             Started by <a href="{% url 'view_other_profile' topic.creator.username %}" target="_blank">{{topic.creator.profile.displayable_name}}</a> on {{topic.created|date:"l, N d Y, H:i"}}</span></div></td>
         <td class="count_part{% if forloop.last %} last{% endif %}">{{ topic.num_replies }}</td>
         <td {% if forloop.last %}class="last"{% endif %}>
         {%if topic.last_post%}
-            <a href="{% url 'topic-detail' topic.last_post.topic.pk %}?find_post={{topic.last_post.pk}}">{{ topic.last_post.title }}</a><br><span class="createdby">By <a href="{%url 'view_other_profile' topic.last_post.creator%}">{{topic.last_post.creator.profile.displayable_name}}</a> on {{topic.last_post.created|date:"l, N d Y, H:i"}}</span>
+            <a href="{% url 'topic-detail' topic.last_post.topic.pk topic.last_post.topic.slug %}?find_post={{topic.last_post.pk}}">{{ topic.last_post.title }}</a><br><span class="createdby">By <a href="{%url 'view_other_profile' topic.last_post.creator%}">{{topic.last_post.creator.profile.displayable_name}}</a> on {{topic.last_post.created|date:"l, N d Y, H:i"}}</span>
         {%else%}
             <small><i>Nobody has posted here yet!</i></small>
         {%endif%}

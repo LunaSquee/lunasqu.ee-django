@@ -3,7 +3,7 @@
 {% block content %}
 <div class="blog_post">
 	<span class="title">{{post.title}}</span>
-	<span class="date">{{ post.date|date:"d/m/Y H:i:s" }}</span>
+	<span class="date">{{ post.created|date:"d/m/Y H:i:s" }}</span>
 	<div class="postbody">{{post.body|safe|linebreaks}}</div>
 </div>
 {% endblock %}

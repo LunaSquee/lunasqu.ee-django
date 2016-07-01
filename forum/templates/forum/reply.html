@@ -1,12 +1,13 @@
 {% extends "personal/header.html" %}
-{%block title%}LunaSquee - Forums - Replying to {{topic.title}}{%endblock%}
+{% block sitename %}<a href="/forum">LunaSquee Forums</a>{% endblock %}
+{%block title%}LunaSquee Forums - Replying to topic {{topic.title}}{%endblock%}
 {% block content %}
 <!-- Forum Navigator -->
 <div class="forumnavigator">
     <a href="/forum" class="instance" style="z-index: 4;">Forum index</a>
-    <a href="/forum" class="instance" style="z-index: 3;">{{forum.section.title}}</a>
-    <a href="{% url 'forum-detail' forum.pk %}" class="instance" style="z-index: 2;">{{forum.title}}</a>
-    <a href="{% url 'topic-detail' topic.pk %}" class="instance" style="z-index: 1;">{{topic.title}}</a>
+    <a href="{% url 'section-detail' forum.section.slug %}" class="instance" style="z-index: 3;">{{forum.section.title}}</a>
+    <a href="{% url 'forum-detail' forum.pk forum.slug %}" class="instance" style="z-index: 2;">{{forum.title}}</a>
+    <a href="{% url 'topic-detail' topic.pk topic.slug %}" class="instance" style="z-index: 1;">{{topic.title}}</a>
     {% if not editing %}
     <span class="instance">New reply</span>
     {% else %}
@@ -15,11 +16,11 @@
 </div><br>
 <!-- Reply Form -->
 {% if not editing %}
-<i><small>Replying to topic:</small></i>
+<i><small>Replying to</small></i>
 {% else %}
-<i><small>Editing reply to topic:</small></i>
+<i><small>Editing reply to</small></i>
 {% endif %}
-<span class="topictitle">{{topic.title}}</span>
+<span class="topictitle"><span>Topic</span>{{topic.title}}</span>
 <form action method="POST">
     {% csrf_token %} 
     {{ form.as_p }}

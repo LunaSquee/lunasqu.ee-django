@@ -3,16 +3,23 @@ from django.contrib.auth.models import User
 from django.contrib import admin
 from django.utils.translation import ugettext_lazy as _
 from django.utils import timezone
+from django.template.defaultfilters import slugify
 
 class Section(models.Model):
     title = models.CharField(max_length=60)
+    slug = models.SlugField(blank=True, null=True)
     description = models.TextField(blank=True, default='')
 
     def __unicode__(self):
         return self.title
 
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.title)
+        return super(Section, self).save(*args, **kwargs)
+
 class Forum(models.Model):
     title = models.CharField(max_length=60)
+    slug = models.SlugField(blank=True, null=True)
     description = models.TextField(blank=True, default='')
     updated = models.DateTimeField()
     created = models.DateTimeField(editable=False)
@@ -25,6 +32,9 @@ class Forum(models.Model):
         if not self.id:
             self.created = timezone.now()
         self.updated = timezone.now()
+
+        self.slug = slugify(self.title)
+
         return super(Forum, self).save(*args, **kwargs)
 
     def __unicode__(self):
@@ -54,6 +64,7 @@ class Forum(models.Model):
 
 class Topic(models.Model):
     title = models.CharField(max_length=60)
+    slug = models.SlugField(blank=True, null=True)
     description = models.TextField(max_length=10000, blank=True, null=True)
     forum = models.ForeignKey(Forum)
     created = models.DateTimeField(editable=False)
@@ -67,6 +78,9 @@ class Topic(models.Model):
         if not self.id:
             self.created = timezone.now()
         self.updated = timezone.now()
+
+        self.slug = slugify(self.title)
+
         return super(Topic, self).save(*args, **kwargs)
 
     def num_posts(self):
