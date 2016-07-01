@@ -9,6 +9,7 @@ class Section(models.Model):
     title = models.CharField(max_length=60)
     slug = models.SlugField(blank=True, null=True)
     description = models.TextField(blank=True, default='')
+    priority = models.IntegerField(default=1)
 
     def __unicode__(self):
         return self.title
@@ -16,6 +17,9 @@ class Section(models.Model):
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
         return super(Section, self).save(*args, **kwargs)
+
+    def forums(self):
+        return Forum.objects.filter(section=self)
 
 class Forum(models.Model):
     title = models.CharField(max_length=60)

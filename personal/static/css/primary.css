@@ -136,7 +136,7 @@ input[type=submit]:hover {
 #postlist .post {
   padding: 10px;
   border-bottom: 2px solid #ddd;
-  min-height: 260px;
+  min-height: 300px;
   position: relative;
   background-color: #fff;
 }

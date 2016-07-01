@@ -33,19 +33,11 @@ def mk_user_meta(user):
 
 def index(request):
     """Main listing."""
-    sections = Section.objects.all()
+    sections = Section.objects.all().order_by('-priority')
     forums = Forum.objects.all().order_by('id')
 
-    forsect = {}
-    for forum in forums:
-        if forum.section.title in forsect:
-            forsect[forum.section.title]['forums'].append(forum)
-        else:
-            forsect[forum.section.title] = {'forums': [forum], 'description': forum.section.description}
-
     return render_to_response("forum/list.html", {'sections': sections, 'forums': forums, 
-                                'user': request.user,
-                                'sectionlist': forsect}, 
+                                'user': request.user}, 
                                 context_instance=RequestContext(request))
 
 def add_csrf(request, ** kwargs):
