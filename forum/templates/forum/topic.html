@@ -45,6 +45,13 @@
         <div class="post">
             <div class="poster">
                 <img class="avatar" src="{{ post.creator.profile.get_avatar }}">
+                <div class="badges">
+                    {% for badge in post.creator.profile.badges %}
+                    <div class="badge b-{{badge.title}}">
+                        {{badge.display}}
+                    </div>
+                    {% endfor %}
+                </div>
                 <span class="reputation{%if topic.creator.profile.reputation < 0%} negative{%endif%}"><span>{{topic.creator.profile.reputation}}</span> Reputation</span>
                 <span class="post_count newparam">Posts: <span>{{post.creator.profile.get_post_count}}</span></span>
                 <span class="topic_count newparam">Topics: <span>{{post.creator.profile.get_topic_count}}</span></span>

@@ -7,6 +7,13 @@
 		<img src={{profile.profile.get_avatar}} class="avatar">
 	</div>
 	<div class="userdata">
+		<div class="badges">
+			{% for badge in profile.profile.badges %}
+			<div class="badge b-{{badge.title}}">
+				{{badge.display}}
+			</div>
+			{% endfor %}
+		</div>
 		<span class="reputation">{{profile.profile.reputation}} Reputation</span>
 		<span class="postcount"><i class="fa fa-thumb-tack fa-fw"></i>&nbsp;Posts: {{profile.profile.get_post_count}}</span>
 		<span class="postcount"><i class="fa fa-flag fa-fw"></i>&nbsp;Topics: {{profile.profile.get_topic_count}}</span>

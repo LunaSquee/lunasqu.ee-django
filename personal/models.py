@@ -2,6 +2,14 @@ from django.db import models
 from django.contrib.auth.models import User
 from forum.models import Topic, Post
 
+class Badge(models.Model):
+	title = models.CharField(max_length=20)
+	display = models.CharField(max_length=16)
+	user = models.ForeignKey(User)
+
+	def __unicode__(self):
+		return self.title
+
 class Profile(models.Model):
 	user = models.OneToOneField(User, on_delete=models.CASCADE)
 	display_name = models.CharField(max_length=20, blank=True, null=True)
@@ -31,3 +39,6 @@ class Profile(models.Model):
 
 	def __unicode__(self):
 		return self.user
+
+	def badges(self):
+		return Badge.objects.filter(user=self.user)

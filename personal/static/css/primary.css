@@ -454,3 +454,37 @@ input[type=submit]:hover {
     font-size: 10px !important;
   }
 }
+.badges .badge {
+  text-align: center;
+  padding: 10px 5px;
+  margin: 1px 0;
+  border-radius: 5px;
+  color: #fff;
+  font-weight: bold;
+  text-transform: uppercase;
+  position: relative;
+}
+.badges .badge.b-admin {
+  box-shadow: inset 3px 3px 8px #ca0000;
+  background-color: #820000;
+}
+.badges .badge.b-forummod {
+  background-color: #00bfea;
+  color: #0068b7;
+  box-shadow: inset 3px 3px 9px #a7dcff;
+}
+.badges .b-daylightdream {
+  background-color: #c5004f;
+  box-shadow: inset 3px 3px 9px #fd0065;
+}
+.badges .b-daylightdream:before {
+  content: "";
+  background: url("/static/images/dd_icon.png") no-repeat;
+  background-size: contain;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 40px;
+  width: 40px;
+  border-radius: 5px;
+}
