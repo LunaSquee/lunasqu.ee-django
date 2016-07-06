@@ -11,5 +11,6 @@ urlpatterns = [
     url(r'^closetopic/(\d+)/$', views.closetopic, name='topic-close'),
     url(r'^reply/(\d+)/$', views.post_reply, name='reply'),
     url(r'^editreply/(\d+)/$', views.post_reply_edit, name='reply-edit'),
+    url(r'^removereply/(\d+)/$', views.post_reply_remove, name='reply-remove'),
     url(r'newtopic/(\d+)/$', views.new_topic, name='new-topic'),
 ]

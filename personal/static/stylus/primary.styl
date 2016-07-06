@@ -115,6 +115,11 @@ input[type="text"], input[type="email"], input[type="password"]
             float: right
             font-size: 15px
             color: #86d0ff
+        .ipaddr
+            float: right
+            font-size: 12px
+            margin-right: 10px
+            color: red
     .post
         padding: 10px
         border-bottom: 2px solid #ddd
@@ -147,9 +152,13 @@ input[type="text"], input[type="email"], input[type="password"]
             word-wrap: break-word
             margin-left: 150px
             overflow: auto
-            min-height: 220px
+            min-height: 280px
             max-height: 2046px
             margin-bottom: 20px
+            .removed-post
+                color: red
+                font-style: italic
+                font-size: 20px
             *
                 max-width: 100% !important
                 max-height: 200% !important
@@ -409,6 +418,8 @@ input[type="text"], input[type="email"], input[type="password"]
         font-weight: bold
         text-transform: uppercase
         position: relative
+        background-color: #00b100
+        box-shadow: inset 3px 3px 6px #28ce28
         &.b-admin
             box-shadow: inset 3px 3px 8px #ca0000
             background-color: #820000

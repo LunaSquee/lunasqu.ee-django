@@ -41,7 +41,9 @@
 <div id="postlist">
     {% for post in posts.object_list %}
     <div id="post-{{post.pk}}">
-        <div class="p_username"><a href="{% url 'view_other_profile' post.creator.username %}" target="_blank" >{{ post.creator.profile.displayable_name}}</a><a href="#post-{{post.pk}}" class="postid">#{{post.pk}}</a></div>
+        <div class="p_username"><a href="{% url 'view_other_profile' post.creator.username %}">{{ post.creator.profile.displayable_name}}</a><a href="#post-{{post.pk}}" class="postid">#{{post.pk}}</a>
+        {% if perms.forum.can_see_poster_ip %}<a href="#{{ post.user_ip }}" class="ipaddr"><i class="fa fa-globe"></i>&nbsp;{{ post.user_ip }}</a>{% endif %}
+        </div>
         <div class="post">
             <div class="poster">
                 <img class="avatar" src="{{ post.creator.profile.get_avatar }}">
@@ -56,12 +58,23 @@
                 <span class="post_count newparam">Posts: <span>{{post.creator.profile.get_post_count}}</span></span>
                 <span class="topic_count newparam">Topics: <span>{{post.creator.profile.get_topic_count}}</span></span>
             </div>
-            <div class="container">{{ post.body|safe }}</div>
+            <div class="container">
+            {% if post.removed %}
+                <span class="removed-post">This post has been removed by an administator.</span>
+            {% else %}
+                {{ post.body|safe }}
+            {% endif %}
+            </div>
             <div class="subarea">
                 {% if post.creator == user and not post.closed %}
                     {% if not forum.closed or perms.forum.can_post_lock_forum %}
                         <a href="{% url 'reply-edit' post.pk %}" class="button">Edit</a>
                     {% endif %}
+                {% endif %}
+                {% if perms.forum.can_remove_post %}
+                    <a href="{% url 'reply-remove' post.pk %}" class="button">
+                        {% if post.removed %}Restore{% else %}Remove{% endif %}
+                    </a>
                 {% endif %}
                 <span class="date">{{ post.created|date:"l, N d Y, H:i" }}</span>
                 {% if post.is_modified %}

@@ -76,6 +76,7 @@ class Topic(models.Model):
     updated = models.DateTimeField()
     closed = models.BooleanField(blank=True, default=False)
     pinned = models.BooleanField(blank=True, default=False)
+    views = models.IntegerField(default=0)
 
     def save(self, *args, **kwargs):
         ''' On save, update timestamps '''
@@ -114,6 +115,7 @@ class Post(models.Model):
     topic = models.ForeignKey(Topic)
     body = models.TextField(max_length=10000)
     user_ip = models.GenericIPAddressField(blank=True, null=True)
+    removed = models.BooleanField(default=False)
 
     def save(self, *args, **kwargs):
         ''' On save, update timestamps '''
@@ -134,6 +136,12 @@ class Post(models.Model):
         return False
 
     short.allow_tags = True
+
+    class Meta(object):
+        permissions = (
+            ("can_remove_post", "Can remove a post"),
+            ("can_see_poster_ip", "Can see posters IP address"),
+        )
 
 
 class ProfaneWord(models.Model):

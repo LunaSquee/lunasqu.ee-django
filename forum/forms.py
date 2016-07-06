@@ -9,14 +9,14 @@ class TopicForm(forms.ModelForm):
 
     class Meta():
         model = Topic
-        exclude = ('creator', 'updated', 'created', 'closed', 'forum', 'pinned', 'slug',)
+        fields = ('title', 'description',)
 
 
 class PostForm(forms.ModelForm):
 
     class Meta():
         model = Post
-        exclude = ('creator', 'updated', 'created', 'topic', 'user_ip', 'title',)
+        fields = ('body',)
 
     def clean_body(self):
         body = self.cleaned_data["body"]

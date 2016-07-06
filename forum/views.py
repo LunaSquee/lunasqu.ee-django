@@ -33,7 +33,7 @@ def mk_user_meta(user):
 
 def index(request):
     """Main listing."""
-    sections = Section.objects.all().order_by('-priority')
+    sections = Section.objects.all().order_by('priority')
     forums = Forum.objects.all().order_by('id')
 
     return render_to_response("forum/list.html", {'sections': sections, 'forums': forums, 
@@ -189,6 +189,18 @@ def post_reply_edit(request, post_id):
             'forum': topic.forum,
             'editing': True,
         }, context_instance=RequestContext(request))
+
+@permission_required("forum.can_remove_post")
+def post_reply_remove(request, post_id):
+    post = Post.objects.get(pk=post_id)
+    
+    if post.removed:
+        post.removed = False
+    else:
+        post.removed = True
+    post.save()
+
+    return HttpResponseRedirect(reverse('topic-detail', args=(post.topic.id, )))
 
 @login_required
 def new_topic(request, forum_id):

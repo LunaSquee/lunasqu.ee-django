@@ -133,6 +133,12 @@ input[type=submit]:hover {
   font-size: 15px;
   color: #86d0ff;
 }
+#postlist .p_username .ipaddr {
+  float: right;
+  font-size: 12px;
+  margin-right: 10px;
+  color: #f00;
+}
 #postlist .post {
   padding: 10px;
   border-bottom: 2px solid #ddd;
@@ -171,9 +177,14 @@ input[type=submit]:hover {
   word-wrap: break-word;
   margin-left: 150px;
   overflow: auto;
-  min-height: 220px;
+  min-height: 280px;
   max-height: 2046px;
   margin-bottom: 20px;
+}
+#postlist .post .container .removed-post {
+  color: #f00;
+  font-style: italic;
+  font-size: 20px;
 }
 #postlist .post .container * {
   max-width: 100% !important;
@@ -466,6 +477,8 @@ input[type=submit]:hover {
   font-weight: bold;
   text-transform: uppercase;
   position: relative;
+  background-color: #00b100;
+  box-shadow: inset 3px 3px 6px #28ce28;
 }
 .badges .badge.b-admin {
   box-shadow: inset 3px 3px 8px #ca0000;
