@@ -41,8 +41,12 @@
 <div id="postlist">
     {% for post in posts.object_list %}
     <div id="post-{{post.pk}}">
-        <div class="p_username"><a href="{% url 'view_other_profile' post.creator.username %}">{{ post.creator.profile.displayable_name}}</a><a href="#post-{{post.pk}}" class="postid">#{{post.pk}}</a>
-        {% if perms.forum.can_see_poster_ip %}<a href="#{{ post.user_ip }}" class="ipaddr"><i class="fa fa-globe"></i>&nbsp;{{ post.user_ip }}</a>{% endif %}
+        <div class="p_username">
+            <a href="{% url 'view_other_profile' post.creator.username %}">{{ post.creator.profile.displayable_name}}</a>
+            {% load postnumber %}
+            <a href="#post-{{post.pk}}" class="postid">#{{ forloop.counter|postnumber:posts.number }}</a>
+            
+            {% if perms.forum.can_see_poster_ip %}<a href="#{{ post.user_ip }}" class="ipaddr"><i class="fa fa-globe"></i>&nbsp;{{ post.user_ip }}</a>{% endif %}
         </div>
         <div class="post">
             <div class="poster">

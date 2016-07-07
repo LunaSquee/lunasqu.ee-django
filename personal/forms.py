@@ -1,4 +1,4 @@
-from registration.forms import RegistrationForm
+from registration.forms import RegistrationFormUniqueEmail
 from django.db import models
 from django.contrib.auth.models import User
 from django import forms
@@ -8,7 +8,7 @@ from personal.bleach import bleach_clean
 from django.contrib import messages
 
 class ResendActivationEmailForm(forms.Form):
-    username = forms.CharField(required=True)
+    email = forms.EmailField(label=u'Email Address', required=True)
 
 class SettingsForm(forms.ModelForm):
     email = forms.EmailField(label=u'Email Address', required=True)
@@ -52,7 +52,7 @@ class SettingsForm(forms.ModelForm):
 
         return avatar
 
-class MyRegistrationForm(RegistrationForm):
+class MyRegistrationForm(RegistrationFormUniqueEmail):
     display_name = forms.CharField(max_length=20, label=u'Display Name')
 
     def save(self, *args, **kwargs):

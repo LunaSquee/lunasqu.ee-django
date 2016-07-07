@@ -68,11 +68,11 @@ def resend_activation_email(request):
     if request.method == 'POST':
         form = ResendActivationEmailForm(request.POST)
         if form.is_valid():
-            username = form.cleaned_data["username"]
-            users = User.objects.filter(username=username, is_active=0)
+            email = form.cleaned_data["email"]
+            users = User.objects.filter(email=email, is_active=0)
 
             if not users.count():
-                form._errors["username"] = ["Account for username is not registered or already activated."]
+                form._errors["email"] = ["This email is not registered or already activated."]
 
             REGISTRATION_SALT = getattr(settings, 'REGISTRATION_SALT', 'registration')
             for user in users:
