@@ -440,3 +440,42 @@ input[type="text"], input[type="email"], input[type="password"]
             height: 40px
             width: 40px
             border-radius: 5px
+
+.messagehead
+    height: 130px
+    border-bottom: 1px solid #0068b7
+    .profilepic
+        float: left
+        width: 120px
+        height: 120px
+        position: relative
+        img
+            max-height: 120px
+            max-width: 120px
+            position: absolute
+            top:0
+            left:0
+            right:0
+            bottom:0
+            margin: auto
+
+.messagecontent
+    clear: both
+    max-height: 2060px
+    overflow: auto
+
+.tabinator
+    background-color: #1da6ff
+    list-style-type: none
+    padding: 0
+    .tab
+        display: inline-block
+        padding: 10px 0
+        &.active
+            a
+                background-color: #0068b7 
+        a
+            padding: 10px 10px
+            color: white
+            &:hover
+                background-color: #37b0ff  

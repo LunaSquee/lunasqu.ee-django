@@ -4,26 +4,9 @@ from django.template import RequestContext
 from django.template.context_processors import csrf
 from .forms import NewPostForm
 from django.contrib.auth.decorators import user_passes_test
-from django.core.paginator import Paginator
+from personal.helpers import mk_paginator, add_csrf
 
 from .models import Post
-
-def add_csrf(request, ** kwargs):
-    d = dict(user=request.user, ** kwargs)
-    d.update(csrf(request))
-    return d
-
-def mk_paginator(request, items, num_items):
-    """Create and return a paginator."""
-    paginator = Paginator(items, num_items)
-    try: page = int(request.GET.get("page", '1'))
-    except ValueError: page = 1
-
-    try:
-        items = paginator.page(page)
-    except (InvalidPage, EmptyPage):
-        items = paginator.page(paginator.num_pages)
-    return items
 
 def PostList(request):
     posts = Post.objects.all().order_by("-created")

@@ -1,0 +1,22 @@
+{% extends "personal/header.html" %}
+{% block title %}LunaSquee - Inbox - {{ message.subject }}{% endblock %}
+{% block content %}
+<a href="/inbox/">&larr;&nbsp;Return to inbox</a><br><br>
+<div class="messagehead">
+	<div class="profilepic">
+		<img src="{{ message.sender.profile.get_avatar }}">
+	</div>
+	<div class="title">
+		<span class="sectiontitle">{{ message.subject }}</span>
+		<span class="forumdescription">
+			<a href="{% url 'view_other_profile' message.sender %}">{{ message.sender.profile.displayable_name }}</a> 
+			sent this message at {{ message.sent_at|date:"d/m/Y H:i:s" }}
+		</span>
+	</div>
+</div>
+<div class="messagecontent">
+	{{message.message|safe}}
+</div>
+<br>
+<a href="{% url 'compose_message_reply' message.pk %}" class="button">Reply</a>&nbsp;<a href="{% url 'message_delete' message.pk %}" class="button">Archive</a>
+{% endblock %}

@@ -1,0 +1,119 @@
+{% extends "personal/header.html" %}
+{% block title %}LunaSquee - Inbox - Received messages{% endblock %}
+{% block content %}
+	<a href="{% url 'compose_message' %}" class="button replybtn">Compose message</a>
+	<span class="sectiontitle">Private messages</span>
+	<span class="forumdescription">Private messages {% if typ == 'inbox' %}
+		sent to me
+		{% elif typ == 'outbox' %}
+		I've sent
+		{% elif typ == 'archive' %}
+		I've archived
+		{% endif %}
+	</span>
+	{% if messages %}
+	<ul class="messages">
+		{% for message in messages %}
+		<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+		{% endfor %}
+	</ul>
+	{% endif %}
+	<ul class="tabinator">
+		<li class="tab{% if typ == 'inbox' %} active{% endif %}"><a href="{% url 'inbox' %}">Recieved messages</a></li>
+		<li class="tab{% if typ == 'outbox' %} active{% endif %}"><a href="{% url 'outbox' %}">Sent messages</a></li>
+		<li class="tab{% if typ == 'archive' %} active{% endif %}"><a href="{% url 'archive' %}">Archived messages</a></li>
+	</ul>
+	{% if p_messages.object_list and p_messages.paginator.num_pages > 1 %}
+	<div class="pagination">
+		<span class="step-links">
+			{% if p_messages.has_previous %}
+				<a href= "?page={{ p_messages.previous_page_number }}"><i class="fa fa-angle-double-left"></i>&nbsp;Previous</a>
+			{% endif %}
+
+			<span class="current">
+				&nbsp;Page {{ p_messages.number }} of {{ p_messages.paginator.num_pages }}
+			</span>
+
+			{% if p_messages.has_next %}
+				<a href="?page={{ p_messages.next_page_number }}">Next&nbsp;<i class="fa fa-angle-double-right"></i></a>
+			{% endif %}
+		</span>
+	</div>
+	{% endif %}
+	<div id="list">
+	<table border="0" cellpadding="4" width="100%">
+		<tr>
+			<th>&nbsp;</th>
+			<th>Subject</th>
+			{% if typ == 'inbox' %}
+			<th>Sender</th>
+			{% elif typ == 'outbox' %}
+			<th>Recipient</th>
+			{% elif typ == 'archive' %}
+			<th>Sender/Recipent</th>
+			{% endif %}
+			<th>Sent</th>
+			<th>Read</th>
+			<th>&nbsp;</th>
+		</tr>
+		{% if p_messages.object_list|length > 0 %}
+			{% for message in p_messages.object_list %}
+				<tr class="privmsg{% if not message.new %} unread{% endif %}">
+					<td>
+						{% if message.new %}
+							{% if message.sender == user %}
+								<i class="fa fa-envelope"></i>
+							{% else %}
+								<a href="{% url 'message_mark_read' message.pk %}"><i class="fa fa-envelope"></i></a>
+							{% endif %}
+						{% else %}
+							<i class="fa fa-envelope-o"></i>
+						{% endif %}
+					</td>
+					<td><a href="{% url 'view_message' message.pk message.slug %}" class="pmurl">{{message.subject}}</a></td>
+					{% if message.sender == user %}
+					<td>
+						<a href="{% url 'view_other_profile' message.sender %}">
+							{{ message.recipient.profile.displayable_name }}
+						</a>
+					</td>
+					{% else %}
+					<td>
+						<a href="{% url 'view_other_profile' message.sender %}">
+							{{ message.sender.profile.displayable_name }}
+						</a>
+					</td>
+					{% endif %}
+					<td>{{ message.sent_at|date:"d/m/Y H:i:s" }}</td>
+					<td>{% if message.new %}<i>Not read</i>{% else %}{{ message.read_at|date:"d/m/Y H:i:s" }}{% endif %}</td>
+					<td>
+						{% if typ == 'archive' %}
+						<a href="{% url 'message_undelete' message.pk %}" title="Remove from archive"><i class="fa fa-trash-o"></i></a>
+						{% else %}
+						<a href="{% url 'message_delete' message.pk %}" title="Archive"><i class="fa fa-trash"></i></a>
+						{% endif %}
+				</tr>
+			{% endfor %}
+		{% else %}
+			<b>Your inbox is empty!</b>
+		{% endif %}
+	</table>
+	</div>
+	{% if p_messages.object_list and p_messages.paginator.num_pages > 1 %}
+	<div class="pagination">
+		<span class="step-links">
+			{% if p_messages.has_previous %}
+				<a href= "?page={{ p_messages.previous_page_number }}"><i class="fa fa-angle-double-left"></i>&nbsp;Previous</a>
+			{% endif %}
+
+			<span class="current">
+				&nbsp;Page {{ p_messages.number }} of {{ p_messages.paginator.num_pages }}
+			</span>
+
+			{% if p_messages.has_next %}
+				<a href="?page={{ p_messages.next_page_number }}">Next&nbsp;<i class="fa fa-angle-double-right"></i></a>
+			{% endif %}
+		</span>
+	</div>
+	{% endif %}
+{% endblock %}

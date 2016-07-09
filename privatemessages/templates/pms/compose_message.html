@@ -1,0 +1,21 @@
+{% extends "personal/header.html" %}
+{% block title %}LunaSquee - Compose a private message{% endblock %}
+{% block content %}
+<h1>Compose a private message</h1>
+<div class="registerbox">
+	{% if messages %}
+	<ul class="messages">
+		{% for message in messages %}
+		<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+		{% endfor %}
+	</ul>
+	{% endif %}
+	<form method="post" action=".">
+		{% csrf_token %}
+		{{form.as_p}}
+		<input class="submit-button" type="submit" value="Send message">
+		<input type="hidden" name="next" value="{{next}}">
+	</form>
+	<script> CKEDITOR.replace( 'id_message' ); </script>
+</div>
+{% endblock %}

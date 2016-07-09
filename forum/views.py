@@ -7,7 +7,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response, get_object_or_404, render
 
 from django.core.urlresolvers import reverse
-from django.core.paginator import Paginator
+from personal.helpers import mk_paginator, add_csrf
 from django.template.context_processors import csrf
 
 from forum.models import Section, Forum, Topic, Post
@@ -39,23 +39,6 @@ def index(request):
     return render_to_response("forum/list.html", {'sections': sections, 'forums': forums, 
                                 'user': request.user}, 
                                 context_instance=RequestContext(request))
-
-def add_csrf(request, ** kwargs):
-    d = dict(user=request.user, ** kwargs)
-    d.update(csrf(request))
-    return d
-
-def mk_paginator(request, items, num_items):
-    """Create and return a paginator."""
-    paginator = Paginator(items, num_items)
-    try: page = int(request.GET.get("page", '1'))
-    except ValueError: page = 1
-
-    try:
-        items = paginator.page(page)
-    except (InvalidPage, EmptyPage):
-        items = paginator.page(paginator.num_pages)
-    return items
 
 @permission_required("forum.can_pin_topic")
 def pintopic(request, topic_id):

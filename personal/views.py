@@ -1,4 +1,5 @@
 from .forms import ResendActivationEmailForm, SettingsForm
+from .helpers import mk_paginator, add_csrf
 from django.http import HttpResponseRedirect, Http404
 from django.core import signing
 from django.contrib.sites.shortcuts import get_current_site

@@ -19,10 +19,12 @@ def ip_in_model(ip, model):
     return False
 
 def get_ip(request):
-    ip = request.META['REMOTE_ADDR']
-    if (not ip or ip == '127.0.0.1') and 'HTTP_X_FORWARDED_FOR' in request.META:
-        ip = request.META['HTTP_X_FORWARDED_FOR']
-    return ip.replace(',','').split()[0]
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[0]
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    return ip
 
 def forbid(request):
     """

@@ -21,6 +21,9 @@
 </div>
 <div class="rightside">
 	<div class="profheader">
+		{% if not profile == user %}
+		<a href="{% url 'compose_message' profile %}" class="button replybtn">Send Message</a>
+		{% endif %}
 		{% if profile.profile.display_name %}
 		<span class="display_name">{{profile.profile.display_name}}</span>
 		<span class="username">{{profile.username}}</span>

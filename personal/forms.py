@@ -5,7 +5,6 @@ from django import forms
 from .models import Profile
 from django.core.files.images import get_image_dimensions
 from personal.bleach import bleach_clean
-from django.contrib import messages
 
 class ResendActivationEmailForm(forms.Form):
     email = forms.EmailField(label=u'Email Address', required=True)
