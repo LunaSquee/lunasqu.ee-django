@@ -19,7 +19,7 @@ def compose(request, recipient=None):
         if form.is_valid():
             form.save(sender=request.user)
             messages.success(request, 'Private message has been sent.')
-            return HttpResponseRedirect(reverse('inbox'))
+            return HttpResponseRedirect(reverse('outbox'))
 
     else:
         form = PrivateMessageComposeForm()

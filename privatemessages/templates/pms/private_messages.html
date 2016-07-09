@@ -73,7 +73,7 @@
 					<td><a href="{% url 'view_message' message.pk message.slug %}" class="pmurl">{{message.subject}}</a></td>
 					{% if message.sender == user %}
 					<td>
-						<a href="{% url 'view_other_profile' message.sender %}">
+						<a href="{% url 'view_other_profile' message.recipient %}">
 							{{ message.recipient.profile.displayable_name }}
 						</a>
 					</td>

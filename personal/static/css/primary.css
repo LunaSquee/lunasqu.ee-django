@@ -513,6 +513,7 @@ input[type=submit]:hover {
   width: 120px;
   height: 120px;
   position: relative;
+  margin-right: 5px;
 }
 .messagehead .profilepic img {
   max-height: 120px;
