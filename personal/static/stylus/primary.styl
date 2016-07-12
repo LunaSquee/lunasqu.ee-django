@@ -388,6 +388,37 @@ input[type="text"], input[type="email"], input[type="password"]
         .profcontent
             padding: 10px
 
+.statusbtn
+    display: inline-block
+    width: 65px
+    text-align: center
+    margin: 0 5px
+    background-color: #21e621
+    color: white
+    font-weight: bold
+    text-transform: uppercase
+    border-radius: 5px
+    border: 1px solid #00a900
+    box-shadow: inset 3px 3px 2px #00ff00
+    cursor: default
+
+.statuscirc
+    width: 12px
+    height: 12px
+    display: inline-block
+    vertical-align: middle
+    border: 1px solid #00a900
+    box-shadow: inset 3px 3px 2px #00ff00
+    background-color: #21e621
+    border-radius: 100%
+    margin-bottom: 4px
+    cursor: default
+
+.statusbtn.offline, .statuscirc.offline
+    border: 1px solid #b70000
+    box-shadow: inset 3px 3px 2px #f30
+    background-color: #f00
+
 @media all and (max-width: 699px)
     body
         font-size: 12px

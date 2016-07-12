@@ -2,6 +2,9 @@ from django.db import models
 from django.contrib.auth.models import User
 from forum.models import Topic, Post
 from privatemessages.models import count_unread
+from django.core.cache import cache 
+import datetime
+from lunasquee import settings
 
 class Badge(models.Model):
     title = models.CharField(max_length=20)
@@ -47,3 +50,16 @@ class Profile(models.Model):
     def unreadmsgs(self):
         return count_unread(self.user)
 
+    def last_seen(self):
+        return cache.get('seen_%s' % self.user.username)
+
+    def online(self):
+        if self.last_seen():
+            now = datetime.datetime.now()
+            if now > self.last_seen() + datetime.timedelta(
+                         seconds=settings.USER_ONLINE_TIMEOUT):
+                return False
+            else:
+                return True
+        else:
+            return False
