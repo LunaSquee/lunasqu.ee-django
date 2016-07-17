@@ -257,7 +257,8 @@ input[type=submit]:hover {
 }
 .forumtitle,
 .topictitle,
-.sectiontitle {
+.sectiontitle,
+h1 {
   display: block;
   margin: 10px 0px 0px 0px;
   font-size: 36px;
@@ -267,18 +268,27 @@ input[type=submit]:hover {
 }
 .forumtitle span,
 .topictitle span,
-.sectiontitle span {
+.sectiontitle span,
+h1 span {
   color: #008000;
 }
 .forumtitle span:after,
 .topictitle span:after,
-.sectiontitle span:after {
+.sectiontitle span:after,
+h1 span:after {
   content: ": ";
 }
 .forumdescription,
-.topicdescription {
+.topicdescription,
+h2 {
   color: #0056ff;
   font-size: 20px;
+  display: block;
+  margin-bottom: 20px;
+}
+h3 {
+  color: #0056ff;
+  font-size: 16px;
   display: block;
   margin-bottom: 20px;
 }

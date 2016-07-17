@@ -11,11 +11,11 @@ from django.shortcuts import render, get_object_or_404, render_to_response
 from django.contrib.auth.models import User
 from django.conf import settings
 
-def index(request):
-    return render(request, 'personal/index.html')
+def err404(request):
+    return render(render, 'errorpages/404.html', status=404)
 
-def about(request):
-    return render(request, 'personal/about.html')
+def err500(request):
+    return render(render, 'errorpages/50x.html', status=500)
 
 def view_profile(request, **kwargs):
     context = {}
