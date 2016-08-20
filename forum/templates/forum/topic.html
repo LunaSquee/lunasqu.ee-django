@@ -45,8 +45,7 @@
             {% if post.creator.profile.online %}
             <span class="statuscirc online" title="Last seen: {{ post.creator.profile.last_seen|timesince }} ago">&nbsp;</span>
             {% else %}
-            <span class="statuscirc offline" title="Last seen: {% if post.creator.profile.last_seen %}
-                {{ post.creator.profile.last_seen|timesince }} {% else %}A long time {% endif %}ago">&nbsp;</span>
+            <span class="statuscirc offline" title="Last seen: {% if post.creator.profile.last_seen %}{{ post.creator.profile.last_seen|timesince }} {% else %}A long time {% endif %}ago">&nbsp;</span>
             {% endif %}
             <a href="{% url 'view_other_profile' post.creator.username %}">{{ post.creator.profile.displayable_name}}</a>
             {% load postnumber %}

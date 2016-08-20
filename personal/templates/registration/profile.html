@@ -31,10 +31,9 @@
 		<span class="display_name">{{profile.username}}</span>
 		{% endif%}
 		{% if profile.profile.online %}
-		<span class="statusbtn online" title="Last seen: {{ profile.profile.last_seen|timesince }} ago">Online</span>
+		<span class="statusbtn online" title="Last seen: {{profile.profile.last_seen|timesince }} ago">Online</span>
 		{% else %}
-		<span class="statusbtn offline" title="Last seen: {% if profile.profile.last_seen %}
-			{{ profile.profile.last_seen|timesince }} {% else %}A long time {% endif %}ago">Offline</span>
+		<span class="statusbtn offline" title="Last seen: {% if profile.profile.last_seen %}{{ profile.profile.last_seen|timesince }} {% else %}A long time {% endif %}ago">Offline</span>
 		{% endif %}
 	</div>
 	<div class="profcontent">{{profile.profile.bio|safe}}</div>
