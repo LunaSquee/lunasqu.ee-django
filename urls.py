@@ -41,7 +41,7 @@ urlpatterns = [
     # new
     url(r'^profile/$', views.view_profile, name="view_profile"),
     url(r'^profile/(?P<username>\w+)/$', views.view_profile, name="view_other_profile"),
-    url(r'^profile/settings/$', views.edit_settings, name="edit_settings"),
+    url(r'^settings/$', views.edit_settings, name="edit_settings"),
     # apps
     url(r'^blog/', include('blog.urls')),
     url(r'^forum/', include('forum.urls')),
