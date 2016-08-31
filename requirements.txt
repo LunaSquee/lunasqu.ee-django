@@ -1,0 +1,6 @@
+Django >= 1.9.7
+django-registration == 3.4.4
+ipcalc >= 1.99.0
+Pillow == 3.3.0
+python-memcached >= 1.58
+bleach >= 1.4.3

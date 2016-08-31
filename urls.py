@@ -28,14 +28,21 @@ urlpatterns = [
     url(r'^', include('personal.urls')),
     url(r'^favicon\.ico$', favicon_view),
     url(r'^admin/', admin.site.urls),
+    # accounts
     url(r'accounts/register/$', 
         RegistrationView.as_view(form_class = MyRegistrationForm), 
         name = 'registration_register'),
     url(r'^accounts/', include('registration.backends.hmac.urls')),
     url(r'^accounts/resend_email/', views.resend_activation_email, name="resend_activation_email"),
-    url(r'^accounts/profile/$', views.view_profile, name="view_profile"),
-    url(r'^accounts/profile/(?P<username>\w+)/$', views.view_profile, name="view_other_profile"),
-    url(r'^accounts/settings/$', views.edit_settings, name="edit_settings"),
+    # deprecated
+    url(r'^accounts/settings/$', views.edit_settings),
+    url(r'^accounts/profile/$', views.view_profile),
+    url(r'^accounts/profile/(?P<username>\w+)/$', views.view_profile),
+    # new
+    url(r'^profile/$', views.view_profile, name="view_profile"),
+    url(r'^profile/(?P<username>\w+)/$', views.view_profile, name="view_other_profile"),
+    url(r'^profile/settings/$', views.edit_settings, name="edit_settings"),
+    # apps
     url(r'^blog/', include('blog.urls')),
     url(r'^forum/', include('forum.urls')),
     url(r'^inbox/', include('privatemessages.urls')),

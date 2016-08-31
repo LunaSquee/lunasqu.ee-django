@@ -9,7 +9,7 @@
 <input class="submit-button" type="submit" value="Log in">
 <input type="hidden" name="next" value="{{next}}">
 </form>
-<p>Forgot password? <a href="{% url 'auth_password_reset' %}">Click here!</a></p>
-<p>Not registered? <a href="{% url 'registration_register' %}">Register here!</a></p>
+<p><a href="{% url 'auth_password_reset' %}">Forgot your password?</a></p>
+<p>Don't have an account? <a href="{% url 'registration_register' %}">Click here to register!</a></p>
 </div>
 {% endblock %}
