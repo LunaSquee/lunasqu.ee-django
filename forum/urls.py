@@ -3,10 +3,10 @@ from . import views
 
 urlpatterns = [
     url(r'^$', views.index, name='forum-index'),
-    url(r'^(?P<forum_id>\d+)(?:/(?P<slug>[\w\d-]+))?/$', views.forum, name='forum-detail'),
+    url(r'^(?P<forum_id>\d+)(?:-(?P<slug>[\w\d-]+))?/$', views.forum, name='forum-detail'),
     url(r'^(?P<slug>[\w\d-]+)/$', views.section, name='section-detail'),
     url(r'^closeforum/(\d+)/$', views.closeforum, name='forum-close'),
-    url(r'^topic/(?P<topic_id>\d+)(?:/(?P<slug>[\w\d-]+))?/$', views.topic, name='topic-detail'),
+    url(r'^topic/(?P<topic_id>\d+)(?:-(?P<slug>[\w\d-]+))?/$', views.topic, name='topic-detail'),
     url(r'^pintopic/(\d+)/$', views.pintopic, name='topic-pin'),
     url(r'^closetopic/(\d+)/$', views.closetopic, name='topic-close'),
     url(r'^reply/(\d+)/$', views.post_reply, name='reply'),
