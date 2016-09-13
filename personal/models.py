@@ -4,7 +4,10 @@ from forum.models import Topic, Post
 from privatemessages.models import count_unread
 from django.core.cache import cache 
 import datetime
+import time
+import uuid
 from lunasquee import settings
+import os
 
 class Badge(models.Model):
     title = models.CharField(max_length=20)
@@ -14,10 +17,15 @@ class Badge(models.Model):
     def __unicode__(self):
         return self.title
 
+def avatar_file_name(instance, filename):
+    ext = filename.split('.')[-1]
+    filename = "%s-%s-%s.%s" % (instance.user.id, int(time.time()), uuid.uuid4().hex[:8], ext)
+    return os.path.join('profile_images', filename)
+
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     display_name = models.CharField(max_length=20, blank=True, null=True)
-    avatar = models.ImageField(upload_to='profile_images', blank=True, null=True)
+    avatar = models.ImageField(upload_to=avatar_file_name, blank=True, null=True)
     bio = models.TextField(blank=True, null=True)
     signature = models.TextField(blank=True, null=True)
 
